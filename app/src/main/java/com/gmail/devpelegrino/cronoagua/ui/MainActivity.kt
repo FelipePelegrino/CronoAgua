@@ -1,7 +1,8 @@
-package com.gmail.devpelegrino.cronoagua
+package com.gmail.devpelegrino.cronoagua.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.gmail.devpelegrino.cronoagua.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
