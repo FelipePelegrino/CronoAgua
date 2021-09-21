@@ -2,4 +2,17 @@
     <string name="app_name">CronoAgua</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_question">Nome:</string>
+    <string name="weight_question">Peso:</string>
+    <string name="age_question">Idade:</string>
+    <string name="name_text">Nome</string>
+    <string name="weight_text">Peso</string>
+    <string name="age_text">Idade</string>
+    <string name="text_climate_in_your_home">Qual o clima no local onde mora:</string>
+    <string name="text_very_hot">Muito quente</string>
+    <string name="text_hot">Quente</string>
+    <string name="text_cold">Frio</string>
+    <string name="content_water_drop">Gota de água</string>
+    <string name="text_physical_activity">Prática atividade física:</string>
+    <string name="button_save">Salvar</string>
 </resources>
