@@ -9,5 +9,14 @@
         android:id="@+id/userProfileFragment"
         android:name="com.gmail.devpelegrino.cronoagua.ui.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_waterManagerFragment"
+            app:destination="@id/waterManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waterManagerFragment"
+        android:name="com.gmail.devpelegrino.cronoagua.ui.WaterManagerFragment"
+        android:label="fragment_water_manager"
+        tools:layout="@layout/fragment_water_manager" />
 </navigation>
