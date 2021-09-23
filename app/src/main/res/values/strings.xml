@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CronoAgua</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_question">Nome:</string>
     <string name="weight_question">Peso:</string>
@@ -15,4 +14,6 @@
     <string name="content_water_drop">Gota de água</string>
     <string name="text_physical_activity">Prática atividade física:</string>
     <string name="button_save">Salvar</string>
+    <string name="msg_save_action_failed">Verifique se todos os campos estão preenchidos e o clima selecionado.</string>
+
 </resources>

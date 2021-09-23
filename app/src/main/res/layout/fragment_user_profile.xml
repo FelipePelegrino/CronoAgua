@@ -116,7 +116,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_elements"
-                android:onClick="onRadioButtonClicked"
                 android:text="@string/text_cold" />
 
             <RadioButton
@@ -125,7 +124,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_elements"
-                android:onClick="onRadioButtonClicked"
                 android:text="@string/text_hot" />
 
             <RadioButton
@@ -134,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_elements"
-                android:onClick="onRadioButtonClicked"
                 android:text="@string/text_very_hot" />
         </RadioGroup>
 

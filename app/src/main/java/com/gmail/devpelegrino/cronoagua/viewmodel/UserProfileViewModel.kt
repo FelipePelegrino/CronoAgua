@@ -23,10 +23,11 @@ class UserProfileViewModel : ViewModel() {
         _navigateToWaterManager.value = false
     }
 
-    fun saveUserProfile(name: String, age: Int, weight: Float) {
+    fun saveUserProfile(name: String, age: Int, weight: Float, climate: Int, isPracticeExercise: Boolean) {
         _userProfile.value?.name = name
         _userProfile.value?.age = age
         _userProfile.value?.weight = weight
+        //TODO: configuração climate/isPracticeExercise
     }
 
     override fun onCleared() {
