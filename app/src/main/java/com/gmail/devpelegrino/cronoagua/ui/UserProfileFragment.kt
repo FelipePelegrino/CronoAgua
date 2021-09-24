@@ -29,7 +29,8 @@ class UserProfileFragment : Fragment() {
     ): View? {
 
         binding = FragmentUserProfileBinding.inflate(inflater)
-        binding.viewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
+        viewModel.loadUserProfile()
+        binding.viewModel = viewModel
 
         setObserverNavigateWaterManager()
 
