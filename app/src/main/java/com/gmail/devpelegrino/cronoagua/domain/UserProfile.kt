@@ -1,5 +1,9 @@
 package com.gmail.devpelegrino.cronoagua.domain
 
+enum class Climate {
+    COLD, HOT, VERY_HOT
+}
+
 data class UserProfile(
     var name: String,
     var weight: Float,
@@ -8,8 +12,17 @@ data class UserProfile(
     var localClimate: Climate,
     var dailyAverage: Int,
     var amountDose: Int
-)
+) {
+    val shortName: String
+        get() = if (name.indexOf(" ") != -1)  name.split(" ")[0] else name
 
-enum class Climate {
-    COLD, HOT, VERY_HOT
+    val ageDescription: String
+        get() = String.format("%d anos", age)
+
+    val dailyAverageDescription: String
+        get() = String.format("%d ml", dailyAverage)
+
+    val amountDoseDescription: String
+        get() = String.format("%d ml", amountDose)
 }
+
