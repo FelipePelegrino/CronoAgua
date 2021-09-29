@@ -2,6 +2,7 @@ package com.gmail.devpelegrino.cronoagua.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +14,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.gmail.devpelegrino.cronoagua.R
 import com.gmail.devpelegrino.cronoagua.databinding.FragmentUserProfileBinding
+import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.viewmodel.UserProfileViewModel
 
 class UserProfileFragment : Fragment() {
 
     private val viewModel: UserProfileViewModel by lazy {
-        ViewModelProvider(this).get(UserProfileViewModel::class.java)
+        val activity = requireNotNull(this.activity) {}
+        ViewModelProvider(this, UserProfileViewModel.Factory(activity.application)).get(
+            UserProfileViewModel::class.java
+        )
     }
 
     private lateinit var binding: FragmentUserProfileBinding
@@ -43,16 +48,29 @@ class UserProfileFragment : Fragment() {
 
     private fun actionButton() {
         if (validateFields()) {
+            val climate = when (binding.radioGroup.checkedRadioButtonId) {
+                binding.radioCold.id -> {
+                    Climate.COLD
+                }
+                binding.radioHot.id -> {
+                    Climate.HOT
+                }
+                else -> {
+                    Climate.VERY_HOT
+                }
+            }
+
             viewModel.saveUserProfile(
                 binding.editName.text.toString(),
                 binding.editAge.text.toString().toInt(),
                 binding.editWeight.text.toString().toFloat(),
-                binding.radioGroup.checkedRadioButtonId,
+                climate,
                 binding.switchPhysicalActivity.isChecked
             )
             viewModel.onSaveClicked()
         } else {
-            Toast.makeText(context, getText(R.string.msg_save_action_failed), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getText(R.string.msg_save_action_failed), Toast.LENGTH_LONG)
+                .show()
         }
     }
 
