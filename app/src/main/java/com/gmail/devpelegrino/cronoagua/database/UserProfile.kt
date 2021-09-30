@@ -31,3 +31,14 @@ fun List<UserProfile>.asDomainModel(): List<com.gmail.devpelegrino.cronoagua.dom
         )
     }
 }
+
+fun UserProfile.toUserProfileDomain() = com.gmail.devpelegrino.cronoagua.domain.UserProfile(
+    id = user_id,
+    name = name,
+    weight = weight,
+    age = age,
+    isPracticeExercise =  is_practice_exercise,
+    localClimate =  local_climate,
+    dailyAverage = daily_average,
+    amountDose = amount_dose
+)

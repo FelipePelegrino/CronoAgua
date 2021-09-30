@@ -2,28 +2,27 @@ package com.gmail.devpelegrino.cronoagua.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.gmail.devpelegrino.cronoagua.database.UserProfile
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
+import com.gmail.devpelegrino.cronoagua.database.asDomainModel
+import com.gmail.devpelegrino.cronoagua.database.toUserProfileDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserProfileRepository(private val database: UserProfileDatabase) {
 
-    private lateinit var _users : LiveData<List<UserProfile>>
-    private lateinit var _user : LiveData<UserProfile>
-
-
-    suspend fun getAllUsers() : LiveData<List<UserProfile>> {
-        withContext(Dispatchers.IO) {
-            _users = database.userProfileDao.getAllUserProfile()
-        }
-        return _users
+    val users : LiveData<List<com.gmail.devpelegrino.cronoagua.domain.UserProfile>> = Transformations.map(database.userProfileDao.getAllUserProfile()) {
+        it.asDomainModel()
     }
 
-    suspend fun getUser(id: Int) : LiveData<UserProfile> {
+    suspend fun getUser(id: Int) : com.gmail.devpelegrino.cronoagua.domain.UserProfile? {
+        var user: com.gmail.devpelegrino.cronoagua.domain.UserProfile? = null
         withContext(Dispatchers.IO) {
-            _user = database.userProfileDao.getUserProfile(id)
+            Transformations.map(database.userProfileDao.getUserProfile(id)) {
+                user = it.toUserProfileDomain()
+            }
         }
-        return _user
+        return user
     }
 }
