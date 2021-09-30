@@ -32,7 +32,7 @@ fun List<UserProfile>.asDomainModel(): List<com.gmail.devpelegrino.cronoagua.dom
     }
 }
 
-fun UserProfile.toUserProfileDomain() = com.gmail.devpelegrino.cronoagua.domain.UserProfile(
+fun UserProfile.toUserProfileModel() = com.gmail.devpelegrino.cronoagua.domain.UserProfile(
     id = user_id,
     name = name,
     weight = weight,

@@ -1,12 +1,9 @@
 package com.gmail.devpelegrino.cronoagua.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.gmail.devpelegrino.cronoagua.database.UserProfile
-import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
-import com.gmail.devpelegrino.cronoagua.database.asDomainModel
-import com.gmail.devpelegrino.cronoagua.database.toUserProfileDomain
+import com.gmail.devpelegrino.cronoagua.database.*
+import com.gmail.devpelegrino.cronoagua.domain.toUserProfileDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -20,9 +17,21 @@ class UserProfileRepository(private val database: UserProfileDatabase) {
         var user: com.gmail.devpelegrino.cronoagua.domain.UserProfile? = null
         withContext(Dispatchers.IO) {
             Transformations.map(database.userProfileDao.getUserProfile(id)) {
-                user = it.toUserProfileDomain()
+                user = it.toUserProfileModel()
             }
         }
         return user
+    }
+
+    suspend fun updateUser(userProfile: UserProfile) {
+        withContext(Dispatchers.IO) {
+            database.userProfileDao.updateUserProfile(userProfile)
+        }
+    }
+
+    suspend fun insertUser(userProfile: UserProfile) {
+        withContext(Dispatchers.IO) {
+            database.userProfileDao.insertUserProfile(userProfile)
+        }
     }
 }

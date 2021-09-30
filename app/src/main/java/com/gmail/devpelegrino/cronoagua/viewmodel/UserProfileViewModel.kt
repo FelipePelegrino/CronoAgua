@@ -7,6 +7,7 @@ import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
 import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
+import com.gmail.devpelegrino.cronoagua.domain.toUserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
 import kotlinx.coroutines.*
 
@@ -17,11 +18,12 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
     private lateinit var database : UserProfileDatabase
     private lateinit var usersRepository : UserProfileRepository
-    private lateinit var users : LiveData<List<com.gmail.devpelegrino.cronoagua.database.UserProfile>>
 
-    private lateinit var _userProfile : MutableLiveData<com.gmail.devpelegrino.cronoagua.database.UserProfile>
+    private lateinit var users : LiveData<List<UserProfile>>
 
-    val userProfile: LiveData<com.gmail.devpelegrino.cronoagua.database.UserProfile>
+    private var _userProfile : MutableLiveData<UserProfile> = MutableLiveData()
+
+    val userProfile: LiveData<UserProfile>
         get() = _userProfile
 
     private val _navigateToWaterManager = MutableLiveData<Boolean>()
@@ -33,6 +35,8 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             database = getDatabase(application)
             usersRepository = UserProfileRepository(database)
+            Log.i("TesteRepository", usersRepository.users.toString())
+            Log.i("TesteRepository", usersRepository.users.value.toString())
             loadUserProfile()
         }
     }
@@ -49,19 +53,27 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         _userProfile.value?.name = name
         _userProfile.value?.age = age
         _userProfile.value?.weight = weight
-        _userProfile.value?.local_climate = climate
-        _userProfile.value?.is_practice_exercise = isPracticeExercise
-//        database.userProfileDao.updateUserProfile(_userProfile.value)
-        //TODO: configuração climate/isPracticeExercise
+        _userProfile.value?.localClimate = climate
+        _userProfile.value?.isPracticeExercise = isPracticeExercise
+        //TODO: calcular quantidade de água
+        viewModelScope.launch {
+            if(_userProfile != null && _userProfile.value != null) {
+                if(_userProfile!!.value!!.id == -1) {
+                    usersRepository.insertUser(_userProfile.value!!.toUserProfileDatabase())
+                } else{
+                    usersRepository.updateUser(_userProfile.value!!.toUserProfileDatabase())
+                }
+            }
+        }
     }
 
     fun loadUserProfile() {
-        //TODO: recuperar dados do banco
         viewModelScope.launch {
-            users = usersRepository.getAllUsers()
-            Log.i("Teste", usersRepository.getAllUsers().value.toString())
+            users = usersRepository.users
             if(users != null && users.value != null) {
                 loadUser()
+            } else {
+                _userProfile.value = UserProfile()
             }
         }
     }
@@ -69,20 +81,10 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     private fun loadUser() {
         if(users != null && users.value != null && users.value!![0] != null) {
             viewModelScope.launch {
-                _userProfile = usersRepository.getUser(users.value!![0].user_id)
+                _userProfile.value = usersRepository.getUser(users.value!![0].id)
             }
-
-//            _userProfile.value?.name = users.value!![0].name
-//            _userProfile.value?.age = users.value!![0].age
-//            _userProfile.value?.weight = users.value!![0].weight
-//            _userProfile.value?.localClimate = users.value!![0].local_climate
-//            _userProfile.value?.isPracticeExercise = users.value!![0].is_practice_exercise
-//            _userProfile.value?.dailyAverage = users.value!![0].daily_average
-//            _userProfile.value?.amountDose = users.value!![0].amount_dose
         }
     }
-
-    //TODO: criar databinding adapters
 
     override fun onCleared() {
         super.onCleared()
@@ -98,4 +100,6 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
+
+    //TODO: criar databinding adapters
 }
