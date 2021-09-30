@@ -5,6 +5,7 @@ enum class Climate {
 }
 
 data class UserProfile(
+    var id: Int = -1,
     var name: String,
     var weight: Float,
     var age: Int,

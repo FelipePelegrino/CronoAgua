@@ -16,3 +16,18 @@ data class UserProfile constructor(
     var daily_average: Int,
     var amount_dose: Int
 )
+
+fun List<UserProfile>.asDomainModel(): List<com.gmail.devpelegrino.cronoagua.domain.UserProfile> {
+    return map {
+        com.gmail.devpelegrino.cronoagua.domain.UserProfile(
+            id = it.user_id,
+            name = it.name,
+            weight = it.weight,
+            age = it.age,
+            isPracticeExercise =  it.is_practice_exercise,
+            localClimate =  it.local_climate,
+            dailyAverage = it.daily_average,
+            amountDose = it.amount_dose
+        )
+    }
+}

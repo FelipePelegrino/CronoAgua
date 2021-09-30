@@ -8,7 +8,7 @@ import androidx.room.*
 interface UserProfileDao {
 
     @Query("SELECT * FROM UserProfile WHERE user_id = :id")
-    fun getUserProfile(id: Int): MutableLiveData<UserProfile>
+    fun getUserProfile(id: Int): LiveData<UserProfile>
 
     @Query("SELECT * FROM UserProfile")
     fun getAllUserProfile(): LiveData<List<UserProfile>>

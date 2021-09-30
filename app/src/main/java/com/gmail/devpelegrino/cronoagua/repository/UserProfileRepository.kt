@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 class UserProfileRepository(private val database: UserProfileDatabase) {
 
     private lateinit var _users : LiveData<List<UserProfile>>
-    private lateinit var _user : MutableLiveData<UserProfile>
+    private lateinit var _user : LiveData<UserProfile>
 
 
     suspend fun getAllUsers() : LiveData<List<UserProfile>> {
@@ -20,7 +20,7 @@ class UserProfileRepository(private val database: UserProfileDatabase) {
         return _users
     }
 
-    suspend fun getUser(id: Int) : MutableLiveData<UserProfile> {
+    suspend fun getUser(id: Int) : LiveData<UserProfile> {
         withContext(Dispatchers.IO) {
             _user = database.userProfileDao.getUserProfile(id)
         }
