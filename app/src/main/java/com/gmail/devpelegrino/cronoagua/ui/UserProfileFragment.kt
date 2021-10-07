@@ -36,6 +36,7 @@ class UserProfileFragment : Fragment() {
         binding = FragmentUserProfileBinding.inflate(inflater)
         viewModel.loadUserProfile()
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         setObserverNavigateWaterManager()
 
