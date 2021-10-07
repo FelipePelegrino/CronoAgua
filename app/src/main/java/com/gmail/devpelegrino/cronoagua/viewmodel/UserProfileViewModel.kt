@@ -84,8 +84,6 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         if(users.isNotEmpty()) {
             viewModelScope.launch {
                 _userProfile.value = usersRepository.getUser(users[0].id)
-                Log.i("Teste", _userProfile.value.toString())
-                Log.i("Teste", "userProfile  = " + userProfile.value.toString())
             }
         }
     }

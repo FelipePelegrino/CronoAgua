@@ -67,7 +67,6 @@
             android:text="@{String.valueOf(viewModel.userProfile.weight)}"
             android:importantForAutofill="no"
             android:inputType="numberSigned|numberDecimal"
-            android:textColorHint="@color/gray"
             app:layout_constraintTop_toBottomOf="@id/text_weight" />
 
         <TextView

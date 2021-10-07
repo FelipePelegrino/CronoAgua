@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.gmail.devpelegrino.cronoagua.R
 import com.gmail.devpelegrino.cronoagua.databinding.FragmentUserProfileBinding
 import com.gmail.devpelegrino.cronoagua.domain.Climate
+import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.viewmodel.UserProfileViewModel
 
 class UserProfileFragment : Fragment() {
@@ -38,11 +39,9 @@ class UserProfileFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        setObserverUserProfile()
         setObserverNavigateWaterManager()
-
-        binding.buttonSave.setOnClickListener {
-            actionButton()
-        }
+        setClickListeners()
 
         return binding.root
     }
@@ -109,5 +108,50 @@ class UserProfileFragment : Fragment() {
                     viewModel.onNavigatedToWaterManager()
                 }
             })
+    }
+
+    private fun setObserverUserProfile() {
+        viewModel.userProfile.observe(viewLifecycleOwner,
+            Observer {
+                if (it != null ) {
+                    configUserProfileObserve(it)
+                }
+            })
+    }
+
+    private fun configUserProfileObserve(user: UserProfile) {
+        when (user.localClimate) {
+            Climate.COLD -> {
+                binding.radioCold.isChecked = true
+            }
+            Climate.HOT -> {
+                binding.radioHot.isChecked = true
+            }
+            else -> {
+                binding.radioVeryHot.isChecked = true
+            }
+        }
+    }
+
+    private fun setClickListeners() {
+        binding.buttonSave.setOnClickListener {
+            actionButton()
+        }
+
+        binding.editAge.setOnFocusChangeListener { v, hasFocus ->
+            if(viewModel.userProfile != null) {
+                if(Integer.valueOf(binding.editAge.text.toString()) < 1) {
+                    binding.editAge.text.clear()
+                }
+            }
+        }
+
+        binding.editWeight.setOnFocusChangeListener { v, hasFocus ->
+            if(viewModel.userProfile != null) {
+                if(binding.editWeight.text.toString().toFloat() < 1f) {
+                    binding.editWeight.text.clear()
+                }
+            }
+        }
     }
 }
