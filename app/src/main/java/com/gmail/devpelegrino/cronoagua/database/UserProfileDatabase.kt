@@ -20,7 +20,7 @@ fun getDatabase(context: Context): UserProfileDatabase {
             INSTANCE = androidx.room.Room.databaseBuilder(
                 context.applicationContext,
                 UserProfileDatabase::class.java,
-                "user_profile"
+                "UserProfile"
             ).build()
         }
     }

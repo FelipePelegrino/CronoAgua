@@ -9,15 +9,23 @@ import kotlinx.coroutines.withContext
 
 class UserProfileRepository(private val database: UserProfileDatabase) {
 
-    val users : LiveData<List<com.gmail.devpelegrino.cronoagua.domain.UserProfile>> = Transformations.map(database.userProfileDao.getAllUserProfile()) {
-        it.asDomainModel()
+    suspend fun getAllUsers() : List<com.gmail.devpelegrino.cronoagua.database.UserProfile> {
+        var users: List<com.gmail.devpelegrino.cronoagua.database.UserProfile> = listOf()
+        withContext(Dispatchers.IO) {
+            val aux = database.userProfileDao.getAllUserProfile()
+            if(aux != null) {
+                users = database.userProfileDao.getAllUserProfile()
+            }
+        }
+        return users
     }
 
     suspend fun getUser(id: Int) : com.gmail.devpelegrino.cronoagua.domain.UserProfile? {
         var user: com.gmail.devpelegrino.cronoagua.domain.UserProfile? = null
         withContext(Dispatchers.IO) {
-            Transformations.map(database.userProfileDao.getUserProfile(id)) {
-                user = it.toUserProfileModel()
+            val aux = database.userProfileDao.getUserProfile(id)
+            if(aux != null) {
+                user = database.userProfileDao.getUserProfile(id)!!.toUserProfileModel()
             }
         }
         return user

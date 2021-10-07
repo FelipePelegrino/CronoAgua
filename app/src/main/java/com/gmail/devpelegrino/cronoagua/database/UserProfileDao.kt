@@ -6,11 +6,11 @@ import androidx.room.*
 @Dao
 interface UserProfileDao {
 
-    @Query("SELECT * FROM UserProfile WHERE user_id = :id")
-    fun getUserProfile(id: Int): LiveData<UserProfile>
+    @Query("SELECT user_id, name, age, weight, is_practice_exercise, local_climate, amount_dose, daily_average FROM UserProfile WHERE user_id = :id")
+    fun getUserProfile(id: Int): UserProfile?
 
-    @Query("SELECT * FROM UserProfile")
-    fun getAllUserProfile(): LiveData<List<UserProfile>>
+    @Query("select * from userprofile")
+    fun getAllUserProfile(): List<UserProfile>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserProfile(userProfile: UserProfile)

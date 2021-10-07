@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
+import com.gmail.devpelegrino.cronoagua.database.toUserProfileModel
 import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.domain.toUserProfileDatabase
@@ -19,7 +20,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     private lateinit var database : UserProfileDatabase
     private lateinit var usersRepository : UserProfileRepository
 
-    private lateinit var users : LiveData<List<UserProfile>>
+    private lateinit var users : List<UserProfile>
 
     private var _userProfile : MutableLiveData<UserProfile> = MutableLiveData()
 
@@ -35,8 +36,6 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             database = getDatabase(application)
             usersRepository = UserProfileRepository(database)
-            Log.i("TesteRepository", usersRepository.users.toString())
-            Log.i("TesteRepository", usersRepository.users.value.toString())
             loadUserProfile()
         }
     }
@@ -59,6 +58,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch {
             if(_userProfile != null && _userProfile.value != null) {
                 if(_userProfile!!.value!!.id == -1) {
+                    _userProfile!!.value!!.id = 1
                     usersRepository.insertUser(_userProfile.value!!.toUserProfileDatabase())
                 } else{
                     usersRepository.updateUser(_userProfile.value!!.toUserProfileDatabase())
@@ -69,8 +69,10 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
 
     fun loadUserProfile() {
         viewModelScope.launch {
-            users = usersRepository.users
-            if(users != null && users.value != null) {
+            users = usersRepository.getAllUsers().map {
+                it.toUserProfileModel()
+            }
+            if(users != null && users.isNotEmpty()) {
                 loadUser()
             } else {
                 _userProfile.value = UserProfile()
@@ -79,9 +81,11 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun loadUser() {
-        if(users != null && users.value != null && users.value!![0] != null) {
+        if(users.isNotEmpty()) {
             viewModelScope.launch {
-                _userProfile.value = usersRepository.getUser(users.value!![0].id)
+                _userProfile.value = usersRepository.getUser(users[0].id)
+                Log.i("Teste", _userProfile.value.toString())
+                Log.i("Teste", "userProfile  = " + userProfile.value.toString())
             }
         }
     }
