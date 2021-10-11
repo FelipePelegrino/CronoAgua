@@ -94,6 +94,9 @@ class UserProfileFragment : Fragment() {
                 if (it.text.isEmpty()) {
                     isSuccess = false;
                 }
+                if (it.text.toString() == "0" || it.text.toString() == "0.0") {
+                    isSuccess = false;
+                }
             }
         }
         return isSuccess;
@@ -113,7 +116,7 @@ class UserProfileFragment : Fragment() {
     private fun setObserverUserProfile() {
         viewModel.userProfile.observe(viewLifecycleOwner,
             Observer {
-                if (it != null ) {
+                if (it != null) {
                     configUserProfileObserve(it)
                 }
             })
@@ -139,16 +142,16 @@ class UserProfileFragment : Fragment() {
         }
 
         binding.editAge.setOnFocusChangeListener { v, hasFocus ->
-            if(viewModel.userProfile != null) {
-                if(Integer.valueOf(binding.editAge.text.toString()) < 1) {
+            if (viewModel.userProfile != null) {
+                if (Integer.valueOf(binding.editAge.text.toString()) < 1) {
                     binding.editAge.text.clear()
                 }
             }
         }
 
         binding.editWeight.setOnFocusChangeListener { v, hasFocus ->
-            if(viewModel.userProfile != null) {
-                if(binding.editWeight.text.toString().toFloat() < 1f) {
+            if (viewModel.userProfile != null) {
+                if (binding.editWeight.text.toString().toFloat() < 1f) {
                     binding.editWeight.text.clear()
                 }
             }

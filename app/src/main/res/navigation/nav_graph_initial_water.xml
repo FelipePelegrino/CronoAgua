@@ -2,21 +2,25 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/userProfileFragment">
+    android:id="@+id/nav_graph_initial_water"
+    app:startDestination="@id/waterManagerFragment">
 
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.gmail.devpelegrino.cronoagua.ui.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
-        <action
-            android:id="@+id/action_userProfileFragment_to_waterManagerFragment"
-            app:destination="@id/waterManagerFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/waterManagerFragment"
         android:name="com.gmail.devpelegrino.cronoagua.ui.WaterManagerFragment"
         android:label="fragment_water_manager"
-        tools:layout="@layout/fragment_water_manager" />
+        tools:layout="@layout/fragment_water_manager" >
+
+        <action
+            android:id="@+id/action_waterManagerFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+
 </navigation>
