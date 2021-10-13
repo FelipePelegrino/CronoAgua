@@ -14,7 +14,7 @@
         android:id="@+id/scroll_user_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/primary_details"
         android:padding="@dimen/base_padding"
         tools:context=".ui.UserProfileFragment">
 
@@ -143,6 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/save"
+            android:textColor="@color/white"
             android:text="@string/button_save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

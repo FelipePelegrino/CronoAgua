@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.gmail.devpelegrino.cronoagua.R
 
-class WaterManagerFragment : Fragment() {
+class WaterManagementFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/waterManagerFragment"
-        android:name="com.gmail.devpelegrino.cronoagua.ui.WaterManagerFragment"
+        android:name="com.gmail.devpelegrino.cronoagua.ui.WaterManagementFragment"
         android:label="fragment_water_manager"
         tools:layout="@layout/fragment_water_manager" />
 </navigation>
