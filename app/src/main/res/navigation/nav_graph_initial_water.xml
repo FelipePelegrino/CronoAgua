@@ -20,7 +20,29 @@
 
         <action
             android:id="@+id/action_waterManagerFragment_to_userProfileFragment"
-            app:destination="@id/userProfileFragment" />
+            app:destination="@id/userProfileFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/waterManagerFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_waterManagerFragment_to_configurationFragment"
+            app:destination="@id/configurationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/waterManagerFragment"
+            app:popUpToInclusive="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/configurationFragment"
+        android:name="com.gmail.devpelegrino.cronoagua.ui.ConfigurationFragment"
+        android:label="fragment_configuration"
+        tools:layout="@layout/fragment_configuration" />
 
 </navigation>

@@ -107,8 +107,10 @@ class UserProfileFragment : Fragment() {
             Observer {
                 if (it) {
                     val navController = binding.root.findNavController()
-                    navController.navigate(R.id.action_userProfileFragment_to_waterManagerFragment)
                     viewModel.onNavigatedToWaterManager()
+                    //TODO: conferir
+//                    navController.navigate(R.id.action_userProfileFragment_to_waterManagerFragment)
+                    navController.popBackStack()
                 }
             })
     }

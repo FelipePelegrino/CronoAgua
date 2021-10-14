@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
     <LinearLayout
@@ -12,21 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_home"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/save"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-
-            <ImageView
-                android:id="@+id/image_water"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/ic_water_drop" />
-
-        </androidx.appcompat.widget.Toolbar>
+        <include layout="@layout/toolbar" />
 
         <fragment
             android:id="@+id/nav_host_fragment"
@@ -42,5 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
         app:menu="@menu/menu_item" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

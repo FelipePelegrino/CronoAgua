@@ -16,5 +16,9 @@
     <string name="msg_save_action_failed">Verifique se todos os campos estão preenchidos e o clima selecionado.</string>
     <string name="menu_title_user_profile">Usuário</string>
     <string name="menu_title_config">Configurações</string>
+    <string name="logo_description">Logotipo do app: gota de água</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_description">Voltar</string>
 
 </resources>
