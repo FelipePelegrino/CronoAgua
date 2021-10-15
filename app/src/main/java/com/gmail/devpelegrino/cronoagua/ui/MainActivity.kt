@@ -2,7 +2,6 @@ package com.gmail.devpelegrino.cronoagua.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -24,10 +23,10 @@ import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var toolbar : Toolbar
-    private lateinit var toggle : ActionBarDrawerToggle
-    private lateinit var drawer : DrawerLayout
-    private lateinit var navController : NavController
+    private lateinit var toolbar: Toolbar
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var drawer: DrawerLayout
+    private lateinit var navController: NavController
 
     @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,41 +43,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.item_user -> {
-            navController.navigate(R.id.action_waterManagerFragment_to_userProfileFragment)
-            true
-        }
-
-        R.id.item_config -> {
-            navController.navigate(R.id.action_waterManagerFragment_to_configurationFragment)
-            true
-        }
-
-        else -> {
-            super.onOptionsItemSelected(item)
-        }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        navigationHandling(item.itemId)
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.item_user -> {
-//                val toolBar = supportActionBar
-//                toolBar!!.title = getString(R.string.menu_title_user_profile)
-//                navController.navigate(R.id.action_waterManagerFragment_to_userProfileFragment)
-//            }
-//            R.id.item_config -> {
-//                Log.i("Teste", "entrei item_config")
-//                val toolBar = supportActionBar
-//                toolBar!!.title = getString(R.string.menu_title_config)
-//                navController.navigate(R.id.action_waterManagerFragment_to_configurationFragment)
-//            }
-//        }
-        return false
-    }
-
-    override fun onSupportNavigateUp()
-            = navigateUp(findNavController(R.id.nav_host_fragment), drawer)
+    override fun onSupportNavigateUp() =
+        navigateUp(findNavController(R.id.nav_host_fragment), drawer)
 
 
     @InternalCoroutinesApi
@@ -100,25 +71,38 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupActionBarWithNavController(navController, drawer)
         navigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
-            val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
-            when(destination.id) {
+            navigationHandling(destination.id)
+        }
+
+        navigationView.setNavigationItemSelectedListener {
+            navigationHandling(it.itemId)
+            return@setNavigationItemSelectedListener true
+        };
+    }
+
+    private fun navigationHandling(idItem: Int) {
+        val toolBar = supportActionBar
+        if (toolbar != null && navController != null) {
+            when (idItem) {
                 R.id.home -> {
-                    toolBar.title = getString(R.string.app_name)
+                    toolbar.menu.setGroupVisible(R.id.group_menu, true)
+                    toolBar!!.title = getString(R.string.app_name)
                 }
                 R.id.item_user -> {
-                    Log.i("Teste", "entrei item_user")
-                    toolBar.title = getString(R.string.menu_title_user_profile)
+                    toolbar.menu.setGroupVisible(R.id.group_menu, false)
+                    toolBar!!.title = getString(R.string.menu_title_user_profile)
                     navController.navigate(R.id.action_waterManagerFragment_to_userProfileFragment)
                 }
                 R.id.item_config -> {
-                    Log.i("Teste", "entrei item_config")
-                    toolBar.title = getString(R.string.menu_title_config)
+                    toolbar.menu.setGroupVisible(R.id.group_menu, false)
+                    toolBar!!.title = getString(R.string.menu_title_config)
                     navController.navigate(R.id.action_waterManagerFragment_to_configurationFragment)
                 }
                 else -> {
-                    toolBar.title = getString(R.string.app_name)
+                    toolBar!!.title = getString(R.string.app_name)
                 }
             }
+            drawer.closeDrawers()
         }
     }
 
@@ -126,5 +110,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer = findViewById(R.id.drawer_layout)
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return true
     }
 }

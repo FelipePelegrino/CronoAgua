@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/drawable/ic_config.xml" value="0.337037037037037" />
         <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/drawable/ic_water_drop.xml" value="0.337037037037037" />
         <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/layout/fragment_configuration.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Pichau/Documents/Computacao/Projetos/CronoAgua/app/src/main/res/layout/fragment_user_profile.xml" value="0.3490740740740741" />

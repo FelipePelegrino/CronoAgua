@@ -10,6 +10,15 @@
         android:name="com.gmail.devpelegrino.cronoagua.ui.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_waterManagerFragment"
+            app:destination="@id/waterManagerFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/userProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -21,20 +30,20 @@
         <action
             android:id="@+id/action_waterManagerFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment"
-            app:enterAnim="@anim/nav_default_pop_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
             app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/waterManagerFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_waterManagerFragment_to_configurationFragment"
             app:destination="@id/configurationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/waterManagerFragment"
             app:popUpToInclusive="false" />
     </fragment>

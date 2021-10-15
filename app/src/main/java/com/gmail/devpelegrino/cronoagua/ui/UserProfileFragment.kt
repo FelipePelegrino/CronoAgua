@@ -2,7 +2,6 @@ package com.gmail.devpelegrino.cronoagua.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,7 @@ import com.gmail.devpelegrino.cronoagua.databinding.FragmentUserProfileBinding
 import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.viewmodel.UserProfileViewModel
+
 
 class UserProfileFragment : Fragment() {
 
@@ -108,9 +108,7 @@ class UserProfileFragment : Fragment() {
                 if (it) {
                     val navController = binding.root.findNavController()
                     viewModel.onNavigatedToWaterManager()
-                    //TODO: conferir
-//                    navController.navigate(R.id.action_userProfileFragment_to_waterManagerFragment)
-                    navController.popBackStack()
+                    navController.navigate(R.id.action_userProfileFragment_to_waterManagerFragment)
                 }
             })
     }
