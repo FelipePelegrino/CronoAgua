@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.ConfigurationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.gmail.devpelegrino.cronoagua.viewmodel.ConfigurationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/primary_details"
+        android:padding="@dimen/base_padding">
 
-</FrameLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_notify"
+            style="@style/TextViewBase"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@{Boolean.valueOf(viewModel.configuration.notify)}"
+            android:text="@string/text_switch_configuration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_notify_vibrate"
+            style="@style/TextViewBase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="@{Boolean.valueOf(viewModel.configuration.notifyWithVibrate)}"
+            android:text="@string/text_switch_vibrate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_notify"/>
+
+        <TextView
+            android:id="@+id/text_wakeUp"
+            style="@style/TextViewBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_wakeUp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_notify_vibrate" />
+
+        <EditText
+            android:id="@+id/edit_wakeUp"
+            style="@style/EditTextBase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary_details"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            android:text="@{String.valueOf(viewModel.configuration.wakeUpTime)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_wakeUp"
+            app:layout_constraintTop_toBottomOf="@+id/switch_notify_vibrate"
+            tools:text="7:00" />
+
+        <TextView
+            android:id="@+id/text_toSleep"
+            style="@style/TextViewBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_toSleep"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_wakeUp" />
+
+        <EditText
+            style="@style/EditTextBase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary_details"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            android:text="@{String.valueOf(viewModel.configuration.timeToSleep)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_toSleep"
+            app:layout_constraintTop_toBottomOf="@+id/text_wakeUp"
+            tools:text="22:00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

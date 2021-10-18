@@ -1,7 +1,6 @@
 package com.gmail.devpelegrino.cronoagua.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
@@ -102,6 +101,4 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
-
-    //TODO: criar databinding adapters
 }

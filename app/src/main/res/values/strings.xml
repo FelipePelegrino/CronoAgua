@@ -20,5 +20,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_description">Voltar</string>
+    <string name="text_switch_configuration">Habilitar a notificação inteligente:</string>
+    <string name="text_switch_vibrate">Habilitar vibrar ao notificar:</string>
+    <string name="text_wakeUp">Hora em que acorda:</string>
+    <string name="text_toSleep">Hora em que dorme:</string>
 
 </resources>

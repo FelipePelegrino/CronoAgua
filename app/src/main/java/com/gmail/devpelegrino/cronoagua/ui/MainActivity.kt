@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -24,7 +23,6 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var toolbar: Toolbar
-    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawer: DrawerLayout
     private lateinit var navController: NavController
 
