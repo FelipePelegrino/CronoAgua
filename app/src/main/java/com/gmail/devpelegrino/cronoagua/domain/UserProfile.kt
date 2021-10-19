@@ -1,7 +1,5 @@
 package com.gmail.devpelegrino.cronoagua.domain
 
-import com.gmail.devpelegrino.cronoagua.database.UserProfile
-
 enum class Climate {
     COLD, HOT, VERY_HOT
 }

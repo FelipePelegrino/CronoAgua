@@ -13,9 +13,9 @@ class ConfigurationViewModel(application: Application) : AndroidViewModel(applic
     val configuration : LiveData<Configuration>
         get() = _configuration
 
-    private var _onUpdate = MutableLiveData<Boolean>()
-    val onUpdate : LiveData<Boolean>
-        get() = _onUpdate
+//    private var _onUpdate = MutableLiveData<Boolean>()
+//    val onUpdate : LiveData<Boolean>
+//        get() = _onUpdate
 
     init {
         _configuration.value = Configuration()

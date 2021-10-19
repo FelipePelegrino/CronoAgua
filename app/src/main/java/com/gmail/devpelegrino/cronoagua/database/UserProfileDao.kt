@@ -1,6 +1,5 @@
 package com.gmail.devpelegrino.cronoagua.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
