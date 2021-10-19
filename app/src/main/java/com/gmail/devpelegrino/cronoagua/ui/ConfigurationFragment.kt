@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.gmail.devpelegrino.cronoagua.R
 import com.gmail.devpelegrino.cronoagua.databinding.FragmentConfigurationBinding
 import com.gmail.devpelegrino.cronoagua.viewmodel.ConfigurationViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
 
 
 class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
+    @InternalCoroutinesApi
     private val viewModel: ConfigurationViewModel by lazy {
         val activity = requireNotNull(this.activity) {}
         ViewModelProvider(this, ConfigurationViewModel.Factory(activity.application)).get(
@@ -24,6 +26,7 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentConfigurationBinding
 
+    @InternalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,17 +43,16 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
+    @InternalCoroutinesApi
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent?.id) {
             binding.spinnerWakeUp.id -> {
                 binding.viewModel?.changeWakeUpTime(
-                    requireContext(),
                     parent?.getItemAtPosition(position).toString()
                 )
             }
             binding.spinnerToSleep.id -> {
                 binding.viewModel?.changeToSleepTime(
-                    requireContext(),
                     parent?.getItemAtPosition(position).toString()
                 )
             }
@@ -61,13 +63,15 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
         TODO("Not yet implemented")
     }
 
+    @InternalCoroutinesApi
     private fun setListeners() {
+        //TODO: conferir a chamada dos métodos do swith
         binding.switchNotify.setOnCheckedChangeListener { button, checked ->
-            binding.viewModel?.changeNotify(requireContext(), checked)
+            binding.viewModel?.changeNotify(checked)
         }
 
         binding.switchNotifyVibrate.setOnCheckedChangeListener { button, checked ->
-            binding.viewModel?.changeVibrate(requireContext(), checked)
+            binding.viewModel?.changeVibrate(checked)
         }
 
         binding.spinnerWakeUp.onItemSelectedListener = this
@@ -95,6 +99,7 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    @InternalCoroutinesApi
     private fun setObservers() {
         binding.viewModel?.configuration?.observe(viewLifecycleOwner, {
             if (it != null) {

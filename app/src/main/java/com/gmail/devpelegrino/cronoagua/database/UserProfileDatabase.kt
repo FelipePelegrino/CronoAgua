@@ -17,6 +17,7 @@ import androidx.room.migration.Migration
 )
 abstract class UserProfileDatabase : RoomDatabase() {
     abstract val userProfileDao: UserProfileDao
+    abstract val configurationDao: ConfigurationDao
 }
 
 private lateinit var INSTANCE: UserProfileDatabase
