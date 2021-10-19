@@ -5,56 +5,108 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.lifecycle.ViewModelProvider
 import com.gmail.devpelegrino.cronoagua.R
+import com.gmail.devpelegrino.cronoagua.databinding.FragmentConfigurationBinding
+import com.gmail.devpelegrino.cronoagua.viewmodel.ConfigurationViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ConfigurationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ConfigurationFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val viewModel: ConfigurationViewModel by lazy {
+        val activity = requireNotNull(this.activity) {}
+        ViewModelProvider(this, ConfigurationViewModel.Factory(activity.application)).get(
+            ConfigurationViewModel::class.java
+        )
+    }
+
+    private lateinit var binding: FragmentConfigurationBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentConfigurationBinding.inflate(inflater)
+        binding.viewModel = viewModel
+
+        setSpinners()
+        setListeners()
+        setObservers()
+
+        return binding.root
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        when (parent?.id) {
+            binding.spinnerWakeUp.id -> {
+                binding.viewModel?.changeWakeUpTime(
+                    requireContext(),
+                    parent?.getItemAtPosition(position).toString()
+                )
+            }
+            binding.spinnerToSleep.id -> {
+                binding.viewModel?.changeToSleepTime(
+                    requireContext(),
+                    parent?.getItemAtPosition(position).toString()
+                )
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_configuration, container, false)
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ConfigurationFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ConfigurationFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setListeners() {
+        binding.switchNotify.setOnCheckedChangeListener { button, checked ->
+            binding.viewModel?.changeNotify(requireContext(), checked)
+        }
+
+        binding.switchNotifyVibrate.setOnCheckedChangeListener { button, checked ->
+            binding.viewModel?.changeVibrate(requireContext(), checked)
+        }
+
+        binding.spinnerWakeUp.onItemSelectedListener = this
+
+        binding.spinnerToSleep.onItemSelectedListener = this
+    }
+
+    private fun setSpinners() {
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.wakeUpTimes,
+            android.R.layout.simple_spinner_dropdown_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerWakeUp.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.toSleepTimes,
+            android.R.layout.simple_spinner_dropdown_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerToSleep.adapter = adapter
+        }
+    }
+
+    private fun setObservers() {
+        binding.viewModel?.configuration?.observe(viewLifecycleOwner, {
+            if (it != null) {
+                val arrayWakeUp = resources.getStringArray(R.array.wakeUpTimes)
+                val arrayToSleep = resources.getStringArray(R.array.toSleepTimes)
+                if (arrayWakeUp.contains(it.wakeUpTime)) {
+                    binding.spinnerWakeUp.setSelection(arrayWakeUp.indexOf(it.wakeUpTime))
+                }
+                if (arrayToSleep.contains(it.timeToSleep)) {
+                    binding.spinnerToSleep.setSelection(arrayToSleep.indexOf(it.timeToSleep))
                 }
             }
+        })
     }
 }

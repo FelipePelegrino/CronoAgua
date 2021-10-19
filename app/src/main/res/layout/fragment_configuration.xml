@@ -20,13 +20,13 @@
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_notify"
             style="@style/TextViewBase"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:checked="@{Boolean.valueOf(viewModel.configuration.notify)}"
             android:text="@string/text_switch_configuration"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_notify_vibrate"
@@ -37,54 +37,60 @@
             android:checked="@{Boolean.valueOf(viewModel.configuration.notifyWithVibrate)}"
             android:text="@string/text_switch_vibrate"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch_notify"/>
+            app:layout_constraintTop_toBottomOf="@+id/switch_notify" />
 
         <TextView
             android:id="@+id/text_wakeUp"
             style="@style/TextViewBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_wakeUp"
             android:layout_marginTop="20dp"
+            android:text="@string/text_wakeUp"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_notify_vibrate" />
 
-        <EditText
-            android:id="@+id/edit_wakeUp"
+        <Spinner
+            android:id="@+id/spinner_wakeUp"
             style="@style/EditTextBase"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/secondary_details"
-            android:inputType="numberSigned"
+            android:contentDescription="@string/content_spinner_wakeUp"
+            android:minWidth="140dp"
             android:textAlignment="center"
-            android:text="@{String.valueOf(viewModel.configuration.wakeUpTime)}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_wakeUp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_notify_vibrate"
-            tools:text="7:00" />
+            app:layout_constraintTop_toBottomOf="@+id/switch_notify_vibrate" />
 
         <TextView
             android:id="@+id/text_toSleep"
             style="@style/TextViewBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_toSleep"
             android:layout_marginTop="20dp"
+            android:text="@string/text_toSleep"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_wakeUp" />
 
-        <EditText
+        <Spinner
+            android:id="@+id/spinner_toSleep"
             style="@style/EditTextBase"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/secondary_details"
-            android:inputType="numberSigned"
+            android:contentDescription="@string/content_spinner_toSleep"
+            android:minWidth="140dp"
             android:textAlignment="center"
-            android:text="@{String.valueOf(viewModel.configuration.timeToSleep)}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_toSleep"
-            app:layout_constraintTop_toBottomOf="@+id/text_wakeUp"
-            tools:text="22:00" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_wakeUp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="145dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

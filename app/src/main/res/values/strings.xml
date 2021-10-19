@@ -24,5 +24,7 @@
     <string name="text_switch_vibrate">Habilitar vibrar ao notificar:</string>
     <string name="text_wakeUp">Hora em que acorda:</string>
     <string name="text_toSleep">Hora em que dorme:</string>
+    <string name="content_spinner_wakeUp">Selecionar horário em que acorda</string>
+    <string name="content_spinner_toSleep">Selecionar horário em que dorme</string>
 
 </resources>
