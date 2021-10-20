@@ -1,6 +1,7 @@
 package com.gmail.devpelegrino.cronoagua.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,10 +68,12 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setListeners() {
         //TODO: conferir a chamada dos métodos do swith
         binding.switchNotify.setOnCheckedChangeListener { button, checked ->
+            Log.i("Teste", "entrando switch notify $checked")
             binding.viewModel?.changeNotify(checked)
         }
 
         binding.switchNotifyVibrate.setOnCheckedChangeListener { button, checked ->
+            Log.i("Teste", "entrando switch vibrate $checked")
             binding.viewModel?.changeVibrate(checked)
         }
 
@@ -111,6 +114,9 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 if (arrayToSleep.contains(it.timeToSleep)) {
                     binding.spinnerToSleep.setSelection(arrayToSleep.indexOf(it.timeToSleep))
                 }
+
+                binding.switchNotify.isChecked = it.notify
+                binding.switchNotifyVibrate.isChecked = it.notifyWithVibrate
             }
         })
     }
