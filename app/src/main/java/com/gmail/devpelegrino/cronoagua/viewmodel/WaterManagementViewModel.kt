@@ -1,17 +1,17 @@
 package com.gmail.devpelegrino.cronoagua.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
 import com.gmail.devpelegrino.cronoagua.database.toModel
 import com.gmail.devpelegrino.cronoagua.domain.Configuration
-import com.gmail.devpelegrino.cronoagua.domain.toDatabase
 import com.gmail.devpelegrino.cronoagua.repository.ConfigurationRepository
 import kotlinx.coroutines.*
 
 @InternalCoroutinesApi
-class ConfigurationViewModel(application: Application) : AndroidViewModel(application) {
+class WaterManagementViewModel(application: Application) : AndroidViewModel(application) {
 
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -36,26 +36,6 @@ class ConfigurationViewModel(application: Application) : AndroidViewModel(applic
         viewModelJob.cancel()
     }
 
-    fun changeNotify(checked: Boolean) {
-        _configuration.value?.notify = checked
-        updateConfig()
-    }
-
-    fun changeVibrate(checked: Boolean) {
-        _configuration.value?.notifyWithVibrate = checked
-        updateConfig()
-    }
-
-    fun changeWakeUpTime(wakeUp: String) {
-        _configuration.value?.wakeUpTime = wakeUp
-        updateConfig()
-    }
-
-    fun changeToSleepTime(toSleep: String) {
-        _configuration.value?.timeToSleep = toSleep
-        updateConfig()
-    }
-
     private fun loadConfiguration() {
         viewModelScope.launch {
             configs = configurationRepository.getAllConfiguration().map {
@@ -63,35 +43,15 @@ class ConfigurationViewModel(application: Application) : AndroidViewModel(applic
             }
             if (configs != null && configs.isNotEmpty()) {
                 _configuration.value = configurationRepository.getConfiguration(configs[0].id)
-            } else {
-                _configuration.value = Configuration()
-            }
-        }
-    }
-
-    private fun updateConfig() {
-        viewModelScope.launch {
-            if(_configuration.value?.id != -1) {
-                _configuration?.value?.toDatabase()?.let {
-                    configurationRepository.updateConfiguration(
-                        it
-                    )
-                }
-            } else {
-                _configuration?.value?.toDatabase()?.let {
-                    configurationRepository.insertConfiguration(
-                        it
-                    )
-                }
             }
         }
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ConfigurationViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(WaterManagementViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return ConfigurationViewModel(app) as T
+                return WaterManagementViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

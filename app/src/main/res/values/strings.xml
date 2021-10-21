@@ -17,7 +17,6 @@
     <string name="menu_title_user_profile">Usuário</string>
     <string name="menu_title_config">Configurações</string>
     <string name="logo_description">Logotipo do app: gota de água</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_description">Voltar</string>
     <string name="text_switch_configuration">Habilitar a notificação inteligente:</string>
@@ -26,5 +25,12 @@
     <string name="text_toSleep">Hora em que dorme:</string>
     <string name="content_spinner_wakeUp">Selecionar horário em que acorda</string>
     <string name="content_spinner_toSleep">Selecionar horário em que dorme</string>
+
+    <!--  Notification  -->
+    <string name="notification_title">Hora de se hidratar</string>
+    <string name="notification_text">Já está na hora de tomar mais um gole!</string>
+    <string name="notification_channel_id">notification_watter</string>
+    <string name="notification_channel_title">CronoAgua</string>
+    <string name="notification_group_key">com.gmail.devpelegrino.cronoagua.ui.WaterManagementFragment</string>
 
 </resources>
