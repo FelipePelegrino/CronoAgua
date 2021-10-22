@@ -32,5 +32,7 @@
     <string name="notification_channel_id">notification_watter</string>
     <string name="notification_channel_title">CronoAgua</string>
     <string name="notification_group_key">com.gmail.devpelegrino.cronoagua.ui.WaterManagementFragment</string>
+    <string name="text_remain">Restam</string>
+    <string name="button_drink">BEBER</string>
 
 </resources>

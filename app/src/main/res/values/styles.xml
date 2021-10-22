@@ -22,4 +22,14 @@
         <item name="android:textColorHint">@color/light_gray</item>
         <item name="android:backgroundTint">@color/secondary_details</item>
     </style>
+
+    <style name="TextViewWaterFragment">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_marginEnd">@dimen/base_margin_elements_water_fragment</item>
+        <item name="android:layout_marginStart">@dimen/base_margin_elements_water_fragment</item>
+        <item name="android:padding">@dimen/base_padding_water_fragment</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:backgroundTint">@color/secondary_details</item>
+        <item name="android:textColorHint">@color/gray</item>
+    </style>
 </resources>
