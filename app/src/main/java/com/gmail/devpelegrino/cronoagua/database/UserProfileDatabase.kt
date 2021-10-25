@@ -12,12 +12,13 @@ import androidx.room.migration.Migration
 
 
 @Database(
-    version = 2,
-    entities = [UserProfile::class, Configuration::class]
+    version = 3,
+    entities = [UserProfile::class, Configuration::class, DailyDrink::class]
 )
 abstract class UserProfileDatabase : RoomDatabase() {
     abstract val userProfileDao: UserProfileDao
     abstract val configurationDao: ConfigurationDao
+    abstract val dailyDrinkDao: DailyDrinkDao
 }
 
 private lateinit var INSTANCE: UserProfileDatabase
@@ -35,6 +36,19 @@ val MIGRATION_1_2: Migration = object : Migration(1, 2) {
     }
 }
 
+val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "CREATE TABLE DailyDrink (date TEXT NOT NULL," +
+                    " total_amount_water INTEGER NOT NULL," +
+                    " current_amount_water INTEGER NOT NULL," +
+                    " last_drink_time TEXT NOT NULL," +
+                    " time_interval INTEGER NOT NULL," +
+                    " PRIMARY KEY(date))"
+        )
+    }
+}
+
 @InternalCoroutinesApi
 fun getDatabase(context: Context): UserProfileDatabase {
     synchronized(UserProfileDatabase::class.java) {
@@ -45,6 +59,7 @@ fun getDatabase(context: Context): UserProfileDatabase {
                 "UserProfile"
             )
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build()
         }
     }

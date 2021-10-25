@@ -20,7 +20,11 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 
 import android.app.PendingIntent
+import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class WaterManagementFragment : Fragment() {
@@ -61,6 +65,13 @@ class WaterManagementFragment : Fragment() {
     private fun teste() {
 //        Log.i("TESTE", binding.viewModel?.configuration?.value?.toString().toString())
         setNotify()
+        var dailyDrink = DailyDrink()
+        var calendar = Calendar.getInstance()
+        val formatter = SimpleDateFormat("dd-MM-yyyy")
+        val form = SimpleDateFormat("HH:mm:ss")
+        Log.i("TESTE", dailyDrink.toString())
+        Log.i("Teste", formatter.format(calendar.time))
+        Log.i("Teste", form.format(calendar.time))
     }
 
     private fun setNotify() {
