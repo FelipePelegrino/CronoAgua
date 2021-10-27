@@ -1,11 +1,14 @@
 package com.gmail.devpelegrino.cronoagua.domain
 
+import java.time.OffsetDateTime
+import java.time.OffsetTime
+
 data class DailyDrink constructor(
-    var date: String = "",
+    var date: OffsetDateTime? = null,
     var totalAmountWater: Int = 0,
     var currentAmountWater: Int = 0,
-    var lastDrinkTime: String = "",
-    var timeInterval: Int = 0
+    var lastDrinkTime: OffsetDateTime? = null,
+    var timeInterval: OffsetTime? = null
 )
 
 fun com.gmail.devpelegrino.cronoagua.domain.DailyDrink.toDatabase() = com.gmail.devpelegrino.cronoagua.database.DailyDrink(
