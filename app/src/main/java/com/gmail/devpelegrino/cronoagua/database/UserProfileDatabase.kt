@@ -15,7 +15,7 @@ import androidx.room.migration.Migration
     version = 4,
     entities = [UserProfile::class, Configuration::class, DailyDrink::class]
 )
-@TypeConverters(TypeConverters::class)
+@TypeConverters(Converters::class)
 abstract class UserProfileDatabase : RoomDatabase() {
     abstract val userProfileDao: UserProfileDao
     abstract val configurationDao: ConfigurationDao
@@ -56,7 +56,7 @@ val MIGRATION_3_4: Migration = object: Migration(3, 4) {
                 " total_amount_water INTEGER NOT NULL," +
                 " current_amount_water INTEGER NOT NULL," +
                 " last_drink_time TEXT NOT NULL," +
-                " time_interval TEXT NOT NULL," +
+                " time_interval INTEGER NOT NULL," +
                 " PRIMARY KEY(date))"
         val copyData = "INSERT INTO DailyDrinkNew (date, total_amount_water, current_amount_water, last_drink_time, time_interval) " +
                 "SELECT date, total_amount_water, current_amount_water, last_drink_time, time_interval FROM DailyDrink"

@@ -4,11 +4,11 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 
 data class DailyDrink constructor(
-    var date: OffsetDateTime? = null,
+    var date: OffsetDateTime = OffsetDateTime.now(),
     var totalAmountWater: Int = 0,
     var currentAmountWater: Int = 0,
-    var lastDrinkTime: OffsetDateTime? = null,
-    var timeInterval: OffsetTime? = null
+    var lastDrinkTime: OffsetTime = OffsetTime.now(),
+    var timeInterval: Int = 0
 )
 
 fun com.gmail.devpelegrino.cronoagua.domain.DailyDrink.toDatabase() = com.gmail.devpelegrino.cronoagua.database.DailyDrink(
