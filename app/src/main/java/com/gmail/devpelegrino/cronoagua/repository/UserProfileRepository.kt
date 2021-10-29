@@ -3,6 +3,7 @@ package com.gmail.devpelegrino.cronoagua.repository
 import com.gmail.devpelegrino.cronoagua.database.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import java.time.OffsetDateTime
 
 class UserProfileRepository(private val database: UserProfileDatabase) {
@@ -78,7 +79,7 @@ class UserProfileRepository(private val database: UserProfileDatabase) {
     }
 
     //Functions access DailyDrink table
-    suspend fun getDailyDrink(date: OffsetDateTime) : com.gmail.devpelegrino.cronoagua.domain.DailyDrink? {
+    suspend fun getDailyDrink(date: LocalDate) : com.gmail.devpelegrino.cronoagua.domain.DailyDrink? {
         var dailyDrink: com.gmail.devpelegrino.cronoagua.domain.DailyDrink? = null
         withContext(Dispatchers.IO) {
             val aux = database.dailyDrinkDao.getDailyDrink(date)

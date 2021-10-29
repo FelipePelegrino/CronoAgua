@@ -1,43 +1,46 @@
 package com.gmail.devpelegrino.cronoagua.database
 
+import android.util.Log
 import androidx.room.TypeConverter
-import java.time.OffsetDateTime
-import java.time.OffsetTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class Converters {
 
     companion object TypeConverters {
 
-        private val formatterDateTime = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-        private val formatterTime = DateTimeFormatter.ISO_OFFSET_TIME
+        private val formatterDate = DateTimeFormatter.ISO_DATE
+        private val formatterTime = DateTimeFormatter.ISO_TIME
 
         @TypeConverter
         @JvmStatic
-        fun toOffsetDateTime(value: String?): OffsetDateTime? {
+        fun toLocalDate(value: String?): LocalDate? {
             return value?.let {
-                return formatterDateTime.parse(value, OffsetDateTime::from)
+                Log.i("teste", "value ${value.toString()}")
+                return formatterDate.parse(value, LocalDate::from)
             }
         }
 
         @TypeConverter
         @JvmStatic
-        fun fromOffsetDateTime(date: OffsetDateTime?): String? {
-            return date?.format(formatterDateTime)
+        fun fromLocalDate(date: LocalDate?): String? {
+            Log.i("teste", "date ${date.toString()}")
+            return date?.format(formatterDate)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toOffsetTime(value: String?): OffsetTime? {
+        fun toOffsetTime(value: String?): LocalTime? {
             return value?.let {
-                return formatterTime.parse(value, OffsetTime::from)
+                return formatterTime.parse(value, LocalTime::from)
             }
         }
 
         @TypeConverter
         @JvmStatic
-        fun fromOffsetTime(date: OffsetTime?): String? {
-            return date?.format(formatterTime)
+        fun fromOffsetTime(time: LocalTime?): String? {
+            return time?.format(formatterTime)
         }
     }
 }

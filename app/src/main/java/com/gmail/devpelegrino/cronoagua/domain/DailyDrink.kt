@@ -1,13 +1,14 @@
 package com.gmail.devpelegrino.cronoagua.domain
 
-import java.time.OffsetDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.OffsetTime
 
 data class DailyDrink constructor(
-    var date: OffsetDateTime = OffsetDateTime.now(),
+    var date: LocalDate,
     var totalAmountWater: Int = 0,
     var currentAmountWater: Int = 0,
-    var lastDrinkTime: OffsetTime = OffsetTime.now(),
+    var lastDrinkTime: LocalTime = LocalTime.now(),
     var timeInterval: Int = 0
 )
 

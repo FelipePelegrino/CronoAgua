@@ -7,7 +7,7 @@ import com.gmail.devpelegrino.cronoagua.database.getDatabase
 import com.gmail.devpelegrino.cronoagua.database.toModel
 import com.gmail.devpelegrino.cronoagua.domain.Configuration
 import com.gmail.devpelegrino.cronoagua.domain.toDatabase
-import com.gmail.devpelegrino.cronoagua.repository.ConfigurationRepository
+import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
 import kotlinx.coroutines.*
 
 @InternalCoroutinesApi
@@ -16,7 +16,7 @@ class ConfigurationViewModel(application: Application) : AndroidViewModel(applic
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
     private lateinit var database: UserProfileDatabase
-    private lateinit var configurationRepository: ConfigurationRepository
+    private lateinit var configurationRepository: UserProfileRepository
     private lateinit var configs: List<Configuration>
     private var _configuration = MutableLiveData<Configuration>()
     val configuration: LiveData<Configuration>
@@ -26,7 +26,7 @@ class ConfigurationViewModel(application: Application) : AndroidViewModel(applic
     init {
         viewModelScope.launch {
             database = getDatabase(application)
-            configurationRepository = ConfigurationRepository(database)
+            configurationRepository = UserProfileRepository(database)
             loadConfiguration()
         }
     }

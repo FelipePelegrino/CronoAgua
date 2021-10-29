@@ -9,6 +9,8 @@ import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.domain.toUserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
+import com.gmail.devpelegrino.cronoagua.util.calculateAmountDose
+import com.gmail.devpelegrino.cronoagua.util.calculateDailyAverage
 import kotlinx.coroutines.*
 
 @OptIn(InternalCoroutinesApi::class)
@@ -53,7 +55,8 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         _userProfile.value?.weight = weight
         _userProfile.value?.localClimate = climate
         _userProfile.value?.isPracticeExercise = isPracticeExercise
-        //TODO: calcular quantidade de água
+        _userProfile.value?.dailyAverage = calculateDailyAverage(_userProfile.value!!)
+        _userProfile.value?.amountDose = calculateAmountDose(_userProfile.value!!)
         viewModelScope.launch {
             if(_userProfile != null && _userProfile.value != null) {
                 if(_userProfile!!.value!!.id == -1) {

@@ -2,16 +2,16 @@ package com.gmail.devpelegrino.cronoagua.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.OffsetDateTime
-import java.time.OffsetTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Entity
 data class DailyDrink constructor(
     @PrimaryKey
-    var date: OffsetDateTime = OffsetDateTime.now(),
+    var date: LocalDate = LocalDate.now(),
     var total_amount_water: Int = 0,
     var current_amount_water: Int = 0,
-    var last_drink_time: OffsetTime = OffsetTime.now(),
+    var last_drink_time: LocalTime = LocalTime.now(),
     var time_interval: Int = 0
 )
 
