@@ -34,5 +34,6 @@
     <string name="notification_group_key">com.gmail.devpelegrino.cronoagua.ui.WaterManagementFragment</string>
     <string name="text_remain">Restam</string>
     <string name="button_drink">BEBER</string>
+    <string name="next_drink">Próximo gole em %s</string>
 
 </resources>

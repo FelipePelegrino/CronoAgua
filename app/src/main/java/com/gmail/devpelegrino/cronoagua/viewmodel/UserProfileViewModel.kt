@@ -5,12 +5,11 @@ import androidx.lifecycle.*
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
 import com.gmail.devpelegrino.cronoagua.database.toUserProfileModel
-import com.gmail.devpelegrino.cronoagua.domain.Climate
-import com.gmail.devpelegrino.cronoagua.domain.UserProfile
-import com.gmail.devpelegrino.cronoagua.domain.toUserProfileDatabase
+import com.gmail.devpelegrino.cronoagua.domain.*
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
 import com.gmail.devpelegrino.cronoagua.util.calculateAmountDose
 import com.gmail.devpelegrino.cronoagua.util.calculateDailyAverage
+import com.gmail.devpelegrino.cronoagua.util.getDailyDate
 import kotlinx.coroutines.*
 
 @OptIn(InternalCoroutinesApi::class)
@@ -24,6 +23,7 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
     private lateinit var users : List<UserProfile>
 
     private var _userProfile : MutableLiveData<UserProfile> = MutableLiveData()
+    private var _dailyDrink : DailyDrink? = null
 
     val userProfile: LiveData<UserProfile>
         get() = _userProfile
@@ -56,7 +56,6 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         _userProfile.value?.localClimate = climate
         _userProfile.value?.isPracticeExercise = isPracticeExercise
         _userProfile.value?.dailyAverage = calculateDailyAverage(_userProfile.value!!)
-        _userProfile.value?.amountDose = calculateAmountDose(_userProfile.value!!)
         viewModelScope.launch {
             if(_userProfile != null && _userProfile.value != null) {
                 if(_userProfile!!.value!!.id == -1) {
@@ -64,6 +63,11 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
                     usersRepository.insertUser(_userProfile.value!!.toUserProfileDatabase())
                 } else{
                     usersRepository.updateUser(_userProfile.value!!.toUserProfileDatabase())
+                    _dailyDrink = usersRepository.getDailyDrink(getDailyDate())
+                    if(_dailyDrink != null) {
+                        _dailyDrink!!.totalAmountWater = _userProfile?.value!!.dailyAverage
+                        usersRepository.updateDailyDrink(_dailyDrink?.toDatabase()!!)
+                    }
                 }
             }
         }

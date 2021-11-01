@@ -1,6 +1,5 @@
 package com.gmail.devpelegrino.cronoagua.database
 
-import android.util.Log
 import androidx.room.TypeConverter
 import java.time.LocalDate
 import java.time.LocalTime
@@ -17,7 +16,6 @@ class Converters {
         @JvmStatic
         fun toLocalDate(value: String?): LocalDate? {
             return value?.let {
-                Log.i("teste", "value ${value.toString()}")
                 return formatterDate.parse(value, LocalDate::from)
             }
         }
@@ -25,7 +23,6 @@ class Converters {
         @TypeConverter
         @JvmStatic
         fun fromLocalDate(date: LocalDate?): String? {
-            Log.i("teste", "date ${date.toString()}")
             return date?.format(formatterDate)
         }
 

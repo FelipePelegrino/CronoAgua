@@ -20,12 +20,10 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 
 import android.app.PendingIntent
-import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Observer
 import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
-import java.text.SimpleDateFormat
-import java.util.*
-
+import com.gmail.devpelegrino.cronoagua.util.getDifferenceHour
 
 class WaterManagementFragment : Fragment() {
 
@@ -45,11 +43,8 @@ class WaterManagementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWaterManagerBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
 
-        binding.buttonTeste.setOnClickListener {
-            teste()
-        }
+        setConfigs()
 
         return binding.root
     }
@@ -62,16 +57,37 @@ class WaterManagementFragment : Fragment() {
     }
 
     @InternalCoroutinesApi
-    private fun teste() {
-//        Log.i("TESTE", binding.viewModel?.configuration?.value?.toString().toString())
-        setNotify()
-        var dailyDrink = DailyDrink()
-        var calendar = Calendar.getInstance()
-        val formatter = SimpleDateFormat("dd-MM-yyyy")
-        val form = SimpleDateFormat("HH:mm:ss")
-        Log.i("TESTE", dailyDrink.toString())
-        Log.i("Teste", formatter.format(calendar.time))
-        Log.i("Teste", form.format(calendar.time))
+    private fun drink() {
+        viewModel.drink()
+    }
+
+    @InternalCoroutinesApi
+    private fun setConfigs() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        viewModel.dailyDrink.observe(
+            viewLifecycleOwner,
+            Observer { data ->
+                if(data != null) {
+                    updateFields(data)
+                }
+            })
+
+        binding.buttonDrink.setOnClickListener {
+            drink()
+        }
+    }
+
+    private fun updateFields(data: DailyDrink) {
+        if(data != null ) {
+            if(data?.lastDrinkTime != null) {
+                binding.textTime.text = String.format(getString(R.string.next_drink), getDifferenceHour(data.lastDrinkTime, 30L))
+            }
+            binding.textWaterCurrent.text = data.currentAmountWater.toString()
+            binding.textWaterFull.text = data.totalAmountWater.toString()
+            binding.textWaterRemainValue.text = (data.totalAmountWater - data.currentAmountWater).toString()
+        }
     }
 
     private fun setNotify() {

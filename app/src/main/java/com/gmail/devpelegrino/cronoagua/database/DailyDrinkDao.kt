@@ -2,7 +2,6 @@ package com.gmail.devpelegrino.cronoagua.database
 
 import androidx.room.*
 import java.time.LocalDate
-import java.time.OffsetDateTime
 
 @Dao
 interface DailyDrinkDao {

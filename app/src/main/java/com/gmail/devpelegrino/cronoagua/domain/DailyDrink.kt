@@ -2,7 +2,6 @@ package com.gmail.devpelegrino.cronoagua.domain
 
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.OffsetTime
 
 data class DailyDrink constructor(
     var date: LocalDate,
