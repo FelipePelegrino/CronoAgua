@@ -20,10 +20,13 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 
 import android.app.PendingIntent
+import android.os.CountDownTimer
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
-import com.gmail.devpelegrino.cronoagua.util.getDifferenceHour
+import com.gmail.devpelegrino.cronoagua.util.convertSecondsToHMmSs
+import com.gmail.devpelegrino.cronoagua.util.getDifferenceHourMillis
+import java.util.concurrent.TimeUnit
 
 class WaterManagementFragment : Fragment() {
 
@@ -69,7 +72,7 @@ class WaterManagementFragment : Fragment() {
         viewModel.dailyDrink.observe(
             viewLifecycleOwner,
             Observer { data ->
-                if(data != null) {
+                if (data != null) {
                     updateFields(data)
                 }
             })
@@ -79,12 +82,33 @@ class WaterManagementFragment : Fragment() {
         }
     }
 
+    @InternalCoroutinesApi
     private fun updateFields(data: DailyDrink) {
-        if(data != null ) {
-            if(data?.lastDrinkTime != null) {
-                binding.textTime.text = String.format(getString(R.string.next_drink), getDifferenceHour(data.lastDrinkTime, 30L))
+        if (data != null) {
+            if (data?.lastDrinkTime != null) {
+                setCountTimer(data)
             }
         }
+    }
+
+    @InternalCoroutinesApi
+    private fun setCountTimer(data: DailyDrink) {
+        val timer = object : CountDownTimer(
+            getDifferenceHourMillis(data.lastDrinkTime, Constants.TIME_INTERVAL),
+            1000
+        ) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.textTime.text = String.format(
+                    getString(R.string.next_drink),
+                    convertSecondsToHMmSs(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished))
+                )
+            }
+
+            override fun onFinish() {
+                binding.textTime.text = getString(R.string.time_to_drink)
+            }
+        }
+        timer.start()
     }
 
     private fun setNotify() {

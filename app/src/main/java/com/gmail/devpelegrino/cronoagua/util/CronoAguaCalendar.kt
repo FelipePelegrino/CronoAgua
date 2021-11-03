@@ -1,6 +1,5 @@
 package com.gmail.devpelegrino.cronoagua.util
 
-import android.util.Log
 import java.time.*
 import java.time.format.DateTimeFormatter
 
@@ -16,13 +15,27 @@ fun getTime(value: String) : LocalTime {
     return LocalTime.parse(value)
 }
 
-//TODO: rever
+fun getDifferenceLocalTime(hour: LocalTime, plus: Long): LocalTime {
+    var nextDrinkTime = hour.plusMinutes(plus)
+    var remain = nextDrinkTime.minusHours(OffsetTime.now().hour.toLong())
+    remain = remain.minusMinutes(OffsetTime.now().minute.toLong())
+    remain = remain.minusSeconds(OffsetTime.now().second.toLong())
+    return remain
+}
+
+fun getDifferenceHourMillis(hour: LocalTime, plus: Long): Long {
+    return (getDifferenceLocalTime(hour, plus).toSecondOfDay()*1000).toLong()
+}
+
 fun getDifferenceHour(hour: LocalTime, plus: Long): String {
     var formatter  = DateTimeFormatter.ofPattern("HH:mm:ss")
-    var nextDrinkTime = hour.plusHours(plus)
-    var remain = nextDrinkTime.minusHours(OffsetTime.now().hour.toLong())
-    remain = nextDrinkTime.minusMinutes(OffsetTime.now().minute.toLong())
-    remain = nextDrinkTime.minusSeconds(OffsetTime.now().second.toLong())
 
-    return remain.format(formatter)
+    return getDifferenceLocalTime(hour, plus).format(formatter)
+}
+
+fun convertSecondsToHMmSs(seconds: Long): String? {
+    val s = seconds % 60
+    val m = seconds / 60 % 60
+    val h = seconds / (60 * 60) % 24
+    return String.format("%d:%02d:%02d", h, m, s)
 }

@@ -73,7 +73,7 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
             _userProfile?.dailyAverage!!,
             0,
             getTime(_configuration?.wakeUpTime!!),
-            Constants.TIME_INTERVAL
+            Constants.TIME_INTERVAL.toInt()
         )
     }
 

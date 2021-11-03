@@ -35,5 +35,6 @@
     <string name="text_remain">Restam</string>
     <string name="button_drink">BEBER</string>
     <string name="next_drink">Próximo gole em %s</string>
+    <string name="time_to_drink">Hora de beber!!</string>
 
 </resources>
