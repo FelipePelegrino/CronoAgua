@@ -84,9 +84,6 @@ class WaterManagementFragment : Fragment() {
             if(data?.lastDrinkTime != null) {
                 binding.textTime.text = String.format(getString(R.string.next_drink), getDifferenceHour(data.lastDrinkTime, 30L))
             }
-            binding.textWaterCurrent.text = data.currentAmountWater.toString()
-            binding.textWaterFull.text = data.totalAmountWater.toString()
-            binding.textWaterRemainValue.text = (data.totalAmountWater - data.currentAmountWater).toString()
         }
     }
 

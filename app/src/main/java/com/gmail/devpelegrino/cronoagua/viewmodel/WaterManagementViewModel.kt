@@ -1,7 +1,6 @@
 package com.gmail.devpelegrino.cronoagua.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.gmail.devpelegrino.cronoagua.database.UserProfileDatabase
 import com.gmail.devpelegrino.cronoagua.database.getDatabase
@@ -12,6 +11,7 @@ import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.domain.toDatabase
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
+import com.gmail.devpelegrino.cronoagua.ui.Constants
 import com.gmail.devpelegrino.cronoagua.util.*
 import kotlinx.coroutines.*
 
@@ -27,7 +27,9 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
     private var _userProfile: UserProfile? = null
     val dailyDrink: LiveData<DailyDrink>
         get() = _dailyDrink
-    var progress: Int = 0
+    private var _progress = MutableLiveData<Int>()
+    val progress: LiveData<Int>
+        get() = _progress
 
 
     init {
@@ -54,32 +56,38 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
     fun drink() {
         viewModelScope.launch {
             if(_dailyDrink != null && _dailyDrink.value != null) {
-                _dailyDrink.value!!.currentAmountWater += _userProfile!!.amountDose
-                _dailyDrink.value!!.lastDrinkTime = getHoursDaily()
-                dailyDrinkRepository.updateDailyDrink(_dailyDrink?.value!!.toDatabase())
-                loadProgress()
+                if(_dailyDrink.value!!.currentAmountWater < _userProfile!!.dailyAverage) {
+                    _dailyDrink.value!!.currentAmountWater += _userProfile!!.amountDose
+                    _dailyDrink.value!!.lastDrinkTime = getHoursDaily()
+                    dailyDrinkRepository.updateDailyDrink(_dailyDrink?.value!!.toDatabase())
+                    loadDailyDrink().join()
+                    loadProgress()
+                }
             }
         }
     }
 
-    //TODO: rever
     private fun newDailyDrink(): com.gmail.devpelegrino.cronoagua.database.DailyDrink {
-        Log.i("teste", "null dailydate: ${getDailyDate()} userprofile $_userProfile daily average ${_userProfile?.dailyAverage}")
         return com.gmail.devpelegrino.cronoagua.database.DailyDrink(
             getDailyDate(),
             _userProfile?.dailyAverage!!,
             0,
             getTime(_configuration?.wakeUpTime!!),
-            30
+            Constants.TIME_INTERVAL
         )
     }
 
     private suspend fun loadProgress() {
-        Log.i("teste", "LOADPROGRESS amount ${dailyDrink.value?.totalAmountWater} current ${dailyDrink.value?.currentAmountWater}")
-        progress =
-            if ((dailyDrink.value != null) && dailyDrink.value?.totalAmountWater != 0 && dailyDrink.value?.currentAmountWater != 0) {
-                dailyDrink.value!!.currentAmountWater / dailyDrink.value!!.totalAmountWater
-            } else {
+        _progress.value =
+            if(_dailyDrink.value != null ) {
+                if (_dailyDrink.value?.totalAmountWater != 0) {
+                    ((_dailyDrink.value!!.currentAmountWater.toFloat() / _dailyDrink.value!!.totalAmountWater.toFloat()) * 100).toInt()
+                }
+                else {
+                    0
+                }
+            }
+             else {
                 0
             }
     }
