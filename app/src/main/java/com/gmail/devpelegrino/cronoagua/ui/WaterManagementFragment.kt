@@ -30,6 +30,8 @@ import java.util.concurrent.TimeUnit
 
 class WaterManagementFragment : Fragment() {
 
+    private lateinit var timer: CountDownTimer
+
     @InternalCoroutinesApi
     private val viewModel: WaterManagementViewModel by lazy {
         val activity = requireNotNull(this.activity) {}
@@ -61,6 +63,7 @@ class WaterManagementFragment : Fragment() {
 
     @InternalCoroutinesApi
     private fun drink() {
+        timer?.cancel()
         viewModel.drink()
     }
 
@@ -91,9 +94,11 @@ class WaterManagementFragment : Fragment() {
         }
     }
 
+
+    //TODO: precisa cancelar a task atual
     @InternalCoroutinesApi
     private fun setCountTimer(data: DailyDrink) {
-        val timer = object : CountDownTimer(
+        timer = object : CountDownTimer(
             getDifferenceHourMillis(data.lastDrinkTime, Constants.TIME_INTERVAL),
             1000
         ) {

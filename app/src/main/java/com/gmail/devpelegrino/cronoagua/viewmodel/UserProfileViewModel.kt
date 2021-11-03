@@ -7,7 +7,6 @@ import com.gmail.devpelegrino.cronoagua.database.getDatabase
 import com.gmail.devpelegrino.cronoagua.database.toUserProfileModel
 import com.gmail.devpelegrino.cronoagua.domain.*
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
-import com.gmail.devpelegrino.cronoagua.util.calculateAmountDose
 import com.gmail.devpelegrino.cronoagua.util.calculateDailyAverage
 import com.gmail.devpelegrino.cronoagua.util.getDailyDate
 import kotlinx.coroutines.*
