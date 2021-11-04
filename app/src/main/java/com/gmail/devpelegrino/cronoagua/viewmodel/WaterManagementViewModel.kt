@@ -20,17 +20,36 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
 
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
     private lateinit var database: UserProfileDatabase
     private lateinit var dailyDrinkRepository: UserProfileRepository
+
     private var _dailyDrink = MutableLiveData<DailyDrink>()
     private var _configuration: Configuration? = null
     private var _userProfile: UserProfile? = null
+
     val dailyDrink: LiveData<DailyDrink>
         get() = _dailyDrink
+
     private var _progress = MutableLiveData<Int>()
     val progress: LiveData<Int>
         get() = _progress
 
+    private var _isFirstTime = MutableLiveData<Boolean>(false)
+    val isFirstTime: LiveData<Boolean>
+        get() = _isFirstTime
+
+    private var _isDoneDaily = MutableLiveData<Boolean>(false)
+    val isDoneDaily: LiveData<Boolean>
+        get() = _isDoneDaily
+
+    private var _isTimeExhaust = MutableLiveData<Boolean>(false)
+    val isTimeExhaust: LiveData<Boolean>
+        get() = _isTimeExhaust
+
+    private var _setTimer = MutableLiveData<Boolean>(false)
+    val setTimer: LiveData<Boolean>
+        get() = _setTimer
 
     init {
         viewModelScope.launch {
@@ -51,6 +70,8 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
         loadDailyDrink().join()
         _userProfile?.amountDose = calculateAmountDose(_userProfile!!, _configuration!!)
         loadProgress()
+        loadTriggersTimer().join()
+        _setTimer.value = true
     }
 
     fun drink() {
@@ -62,9 +83,32 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
                     dailyDrinkRepository.updateDailyDrink(_dailyDrink?.value!!.toDatabase())
                     loadDailyDrink().join()
                     loadProgress()
+                    loadTriggersTimer().join()
+                    _setTimer.value = true
                 }
             }
         }
+    }
+
+    private fun loadTriggersTimer(): Job {
+        _setTimer.value = false
+        return viewModelScope.launch {
+            checkIsFirstTime()
+            checkIsTimeExhaust()
+            checkIsDoneDaily()
+        }
+    }
+
+    private fun checkIsFirstTime() {
+        _isFirstTime.value = getTime(_configuration?.wakeUpTime!!) == _dailyDrink.value?.lastDrinkTime!!
+    }
+
+    private fun checkIsDoneDaily() {
+        _isDoneDaily.value = _dailyDrink?.value?.currentAmountWater!! >= _dailyDrink?.value?.totalAmountWater!!
+    }
+
+    private fun checkIsTimeExhaust() {
+        _isTimeExhaust.value = getIsTimeExhaust(_dailyDrink?.value?.lastDrinkTime!!, Constants.TIME_INTERVAL)
     }
 
     private fun newDailyDrink(): com.gmail.devpelegrino.cronoagua.database.DailyDrink {

@@ -16,11 +16,22 @@ fun getTime(value: String) : LocalTime {
 }
 
 fun getDifferenceLocalTime(hour: LocalTime, plus: Long): LocalTime {
-    var nextDrinkTime = hour.plusMinutes(plus)
+    var nextDrinkTime = getNexDrinkTime(hour, plus)
     var remain = nextDrinkTime.minusHours(OffsetTime.now().hour.toLong())
     remain = remain.minusMinutes(OffsetTime.now().minute.toLong())
     remain = remain.minusSeconds(OffsetTime.now().second.toLong())
     return remain
+}
+
+fun getNexDrinkTime(hour: LocalTime, plus: Long): LocalTime {
+    return hour.plusMinutes(plus)
+}
+
+fun getIsTimeExhaust(hour: LocalTime, plus: Long): Boolean {
+    var nextDrinkTime = getNexDrinkTime(hour, plus)
+    var now = LocalTime.now()
+
+    return now.isAfter(nextDrinkTime)
 }
 
 fun getDifferenceHourMillis(hour: LocalTime, plus: Long): Long {

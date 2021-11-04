@@ -31,6 +31,10 @@ import java.util.concurrent.TimeUnit
 class WaterManagementFragment : Fragment() {
 
     private lateinit var timer: CountDownTimer
+    private var isFirstTime = false
+    private var isDone = false
+    private var isTimeExhaust = false
+    private var isTimerSet = false
 
     @InternalCoroutinesApi
     private val viewModel: WaterManagementViewModel by lazy {
@@ -63,7 +67,9 @@ class WaterManagementFragment : Fragment() {
 
     @InternalCoroutinesApi
     private fun drink() {
-        timer?.cancel()
+        if(isTimerSet) {
+            timer?.cancel()
+        }
         viewModel.drink()
     }
 
@@ -72,13 +78,7 @@ class WaterManagementFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.dailyDrink.observe(
-            viewLifecycleOwner,
-            Observer { data ->
-                if (data != null) {
-                    updateFields(data)
-                }
-            })
+        setObservers()
 
         binding.buttonDrink.setOnClickListener {
             drink()
@@ -86,16 +86,59 @@ class WaterManagementFragment : Fragment() {
     }
 
     @InternalCoroutinesApi
-    private fun updateFields(data: DailyDrink) {
-        if (data != null) {
-            if (data?.lastDrinkTime != null) {
+    private fun setObservers() {
+        viewModel.isFirstTime.observe(
+            viewLifecycleOwner,
+            Observer {
+                isFirstTime = it
+            }
+        )
+
+        viewModel.isTimeExhaust.observe(
+            viewLifecycleOwner,
+            Observer {
+                isTimeExhaust = it
+            }
+        )
+
+        viewModel.isDoneDaily.observe(
+            viewLifecycleOwner,
+            Observer {
+                isDone = it
+            }
+        )
+
+        viewModel.setTimer.observe(
+            viewLifecycleOwner,
+            Observer {
+                if(it) {
+                    if(viewModel != null) {
+                        checkTimeToCountDownTimer(viewModel.dailyDrink.value!!)
+                    }
+                }
+            }
+        )
+
+    }
+
+    @InternalCoroutinesApi
+    private fun checkTimeToCountDownTimer(data: DailyDrink) {
+        if (viewModel != null) {
+            if (isDone) {
+                binding.textTime.text = getString(R.string.is_done_daily)
+            } else if (isFirstTime) {
+                binding.textTime.text = getString(R.string.is_first_time)
+                binding.textTime.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            } else if (isTimeExhaust) {
+                binding.textTime.text = getString(R.string.is_time_exhaust)
+                binding.textTime.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            } else {
                 setCountTimer(data)
             }
         }
     }
 
 
-    //TODO: precisa cancelar a task atual
     @InternalCoroutinesApi
     private fun setCountTimer(data: DailyDrink) {
         timer = object : CountDownTimer(
@@ -114,6 +157,7 @@ class WaterManagementFragment : Fragment() {
             }
         }
         timer.start()
+        isTimerSet = true
     }
 
     private fun setNotify() {
