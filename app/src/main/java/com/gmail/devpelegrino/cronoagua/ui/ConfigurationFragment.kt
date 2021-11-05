@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.gmail.devpelegrino.cronoagua.R
 import com.gmail.devpelegrino.cronoagua.databinding.FragmentConfigurationBinding
+import com.gmail.devpelegrino.cronoagua.util.CronoAguaWork
 import com.gmail.devpelegrino.cronoagua.viewmodel.ConfigurationViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -50,6 +51,10 @@ class ConfigurationFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 binding.viewModel?.changeWakeUpTime(
                     parent?.getItemAtPosition(position).toString()
                 )
+                val worker = CronoAguaWork(requireContext())
+                worker.cancelWork(Constants.WORKER_TAG_NOTIFY_WAKEUP_TIME)
+                //TODO: configurar para mandar o int do time wakeUp
+                worker.scheduleWork(Constants.WORKER_TAG_NOTIFY_WAKEUP_TIME, 9)
             }
             binding.spinnerToSleep.id -> {
                 binding.viewModel?.changeToSleepTime(

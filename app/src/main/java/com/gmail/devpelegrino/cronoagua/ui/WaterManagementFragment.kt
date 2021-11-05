@@ -63,10 +63,9 @@ class WaterManagementFragment : Fragment() {
 
         if(isTimerSet) {
             timer?.cancel()
-            worker.cancelWork()
+            worker.cancelWork(Constants.WORKER_TAG_NOTIFY_TIME_INTERVAL)
         }
         viewModel.drink()
-        worker.scheduleWork()
     }
 
     @InternalCoroutinesApi
@@ -129,6 +128,8 @@ class WaterManagementFragment : Fragment() {
                 binding.textTime.text = getString(R.string.is_time_exhaust)
                 binding.textTime.textAlignment = View.TEXT_ALIGNMENT_CENTER
             } else {
+                val worker = CronoAguaWork(requireContext())
+                worker.scheduleWork(Constants.WORKER_TAG_NOTIFY_TIME_INTERVAL, 1)
                 setCountTimer(data)
             }
         }
