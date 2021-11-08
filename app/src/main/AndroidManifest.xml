@@ -21,6 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.gmail.devpelegrino.cronoagua.notify_system.NotifyReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service
+            android:name="com.gmail.devpelegrino.cronoagua.notify_system.NotifyIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

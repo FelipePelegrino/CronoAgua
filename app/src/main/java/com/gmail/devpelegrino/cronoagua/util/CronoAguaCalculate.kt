@@ -3,7 +3,6 @@ package com.gmail.devpelegrino.cronoagua.util
 import com.gmail.devpelegrino.cronoagua.domain.Climate
 import com.gmail.devpelegrino.cronoagua.domain.Configuration
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
-import com.gmail.devpelegrino.cronoagua.ui.Constants
 import java.math.RoundingMode
 import java.time.LocalTime
 

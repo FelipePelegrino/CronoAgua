@@ -2,6 +2,7 @@ package com.gmail.devpelegrino.cronoagua.util
 
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 fun getDailyDate(): LocalDate {
     return OffsetDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).toLocalDate()
@@ -49,4 +50,17 @@ fun convertSecondsToHMmSs(seconds: Long): String? {
     val m = seconds / 60 % 60
     val h = seconds / (60 * 60) % 24
     return String.format("%d:%02d:%02d", h, m, s)
+}
+
+fun getCalendarConfigureToWakeUpNotify(hour: Int): Calendar {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = System.currentTimeMillis()
+
+    if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= hour) {
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+    }
+    calendar.set(Calendar.HOUR_OF_DAY, hour)
+    calendar.set(Calendar.MINUTE, 0)
+
+    return calendar
 }

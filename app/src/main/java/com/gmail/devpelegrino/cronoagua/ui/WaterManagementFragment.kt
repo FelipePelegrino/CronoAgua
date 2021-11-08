@@ -1,5 +1,7 @@
 package com.gmail.devpelegrino.cronoagua.ui
 
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +17,14 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import android.os.CountDownTimer
 import androidx.lifecycle.Observer
 import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
-import com.gmail.devpelegrino.cronoagua.util.CronoAguaWork
-import com.gmail.devpelegrino.cronoagua.util.convertSecondsToHMmSs
-import com.gmail.devpelegrino.cronoagua.util.getDifferenceHourMillis
+import com.gmail.devpelegrino.cronoagua.notify_system.CronoAguaWork
+import com.gmail.devpelegrino.cronoagua.notify_system.NotifyReceiver
 import java.util.concurrent.TimeUnit
+import android.app.AlarmManager
+import android.content.Context
+import com.gmail.devpelegrino.cronoagua.util.*
+import java.util.*
+
 
 class WaterManagementFragment : Fragment() {
 
@@ -61,9 +67,9 @@ class WaterManagementFragment : Fragment() {
     private fun drink() {
         val worker = CronoAguaWork(requireContext())
 
-        if(isTimerSet) {
+        if (isTimerSet) {
             timer?.cancel()
-            worker.cancelWork(Constants.WORKER_TAG_NOTIFY_TIME_INTERVAL)
+            worker.cancelWork()
         }
         viewModel.drink()
     }
@@ -74,6 +80,9 @@ class WaterManagementFragment : Fragment() {
         binding.viewModel = viewModel
 
         setObservers()
+        if(viewModel?.configuration?.value?.notify == true) {
+            setAlarmManager()
+        }
 
         binding.buttonDrink.setOnClickListener {
             drink()
@@ -106,8 +115,8 @@ class WaterManagementFragment : Fragment() {
         viewModel.setTimer.observe(
             viewLifecycleOwner,
             Observer {
-                if(it) {
-                    if(viewModel != null) {
+                if (it) {
+                    if (viewModel != null) {
                         checkTimeToCountDownTimer(viewModel.dailyDrink.value!!)
                     }
                 }
@@ -128,8 +137,10 @@ class WaterManagementFragment : Fragment() {
                 binding.textTime.text = getString(R.string.is_time_exhaust)
                 binding.textTime.textAlignment = View.TEXT_ALIGNMENT_CENTER
             } else {
-                val worker = CronoAguaWork(requireContext())
-                worker.scheduleWork(Constants.WORKER_TAG_NOTIFY_TIME_INTERVAL, 1)
+                if(viewModel?.configuration?.value?.notify == true) {
+                    val worker = CronoAguaWork(requireContext())
+                    worker.scheduleWork()
+                }
                 setCountTimer(data)
             }
         }
@@ -155,5 +166,32 @@ class WaterManagementFragment : Fragment() {
         }
         timer.start()
         isTimerSet = true
+    }
+
+    @InternalCoroutinesApi
+    private fun setAlarmManager() {
+        val intent = Intent(requireContext(), NotifyReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            Constants.INTENT_REQUEST_CODE,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        var calendar: Calendar
+
+        if (viewModel != null && viewModel.configuration != null) {
+            calendar =
+                getCalendarConfigureToWakeUpNotify(getTime(viewModel?.configuration?.value?.wakeUpTime!!).hour)
+        } else {
+            calendar = getCalendarConfigureToWakeUpNotify(9)
+        }
+        
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 60 * 24,
+            pendingIntent
+        )
     }
 }

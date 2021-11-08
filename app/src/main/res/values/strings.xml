@@ -36,8 +36,5 @@
     <!--  Notification  -->
     <string name="notification_title">Hora de se hidratar</string>
     <string name="notification_text">Já está na hora de tomar mais um copo!</string>
-    <string name="notification_channel_id">notification_watter</string>
-    <string name="notification_channel_title">CronoAgua</string>
-    <string name="notification_group_key">com.gmail.devpelegrino.cronoagua.ui.WaterManagementFragment</string>
 
 </resources>

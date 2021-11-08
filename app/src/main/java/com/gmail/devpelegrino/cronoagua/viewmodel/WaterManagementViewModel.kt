@@ -11,7 +11,7 @@ import com.gmail.devpelegrino.cronoagua.domain.DailyDrink
 import com.gmail.devpelegrino.cronoagua.domain.UserProfile
 import com.gmail.devpelegrino.cronoagua.domain.toDatabase
 import com.gmail.devpelegrino.cronoagua.repository.UserProfileRepository
-import com.gmail.devpelegrino.cronoagua.ui.Constants
+import com.gmail.devpelegrino.cronoagua.util.Constants
 import com.gmail.devpelegrino.cronoagua.util.*
 import kotlinx.coroutines.*
 
@@ -25,11 +25,14 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
     private lateinit var dailyDrinkRepository: UserProfileRepository
 
     private var _dailyDrink = MutableLiveData<DailyDrink>()
-    private var _configuration: Configuration? = null
+    private var _configuration = MutableLiveData<Configuration>()
     private var _userProfile: UserProfile? = null
 
     val dailyDrink: LiveData<DailyDrink>
         get() = _dailyDrink
+
+    val configuration: LiveData<Configuration>
+        get() = _configuration
 
     private var _progress = MutableLiveData<Int>()
     val progress: LiveData<Int>
@@ -68,7 +71,7 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
         loadUserProfile().join()
         loadConfiguration().join()
         loadDailyDrink().join()
-        _userProfile?.amountDose = calculateAmountDose(_userProfile!!, _configuration!!)
+        _userProfile?.amountDose = calculateAmountDose(_userProfile!!, _configuration?.value!!)
         loadProgress()
         loadTriggersTimer().join()
         _setTimer.value = true
@@ -100,7 +103,7 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
     }
 
     private fun checkIsFirstTime() {
-        _isFirstTime.value = getTime(_configuration?.wakeUpTime!!) == _dailyDrink.value?.lastDrinkTime!!
+        _isFirstTime.value = getTime(_configuration?.value?.wakeUpTime!!) == _dailyDrink.value?.lastDrinkTime!!
     }
 
     private fun checkIsDoneDaily() {
@@ -116,7 +119,7 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
             getDailyDate(),
             _userProfile?.dailyAverage!!,
             0,
-            getTime(_configuration?.wakeUpTime!!),
+            getTime(_configuration?.value?.wakeUpTime!!),
             Constants.TIME_INTERVAL.toInt()
         )
     }
@@ -152,7 +155,9 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
                 it.toModel()
             }
             if (configs != null && configs.isNotEmpty()) {
-                _configuration = dailyDrinkRepository.getConfiguration(configs[0].id)
+                _configuration.value = dailyDrinkRepository.getConfiguration(configs[0].id)
+            } else {
+                _configuration.value = Configuration()
             }
         }
     }

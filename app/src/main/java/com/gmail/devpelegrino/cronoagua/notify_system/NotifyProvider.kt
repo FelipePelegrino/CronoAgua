@@ -1,4 +1,4 @@
-package com.gmail.devpelegrino.cronoagua.util
+package com.gmail.devpelegrino.cronoagua.notify_system
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -11,32 +11,25 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import com.gmail.devpelegrino.cronoagua.R
 import com.gmail.devpelegrino.cronoagua.ui.MainActivity
+import com.gmail.devpelegrino.cronoagua.util.Constants
 
-class NotifyWorker(appContext: Context, workerParams: WorkerParameters)
-    : Worker(appContext, workerParams) {
+class NotifyProvider(appContext: Context) {
 
-    private var context = appContext
+    var context: Context = appContext
 
-    override fun doWork(): Result {
-        setNotify()
-        return Result.success()
-    }
-
-    private fun setNotify() {
+    fun setNotify(builder: NotificationCompat.Builder) {
         val notificationManager = NotificationManagerCompat.from(context)
         createNotificationChannel()
-        notificationManager.notify(1, getNotificationBuilder().build())
+        notificationManager.notify(Constants.NOTIFICATION_NOTIFY_ID, builder.build())
     }
 
-    private fun getNotificationBuilder(): NotificationCompat.Builder {
+    fun getNotificationBuilder(): NotificationCompat.Builder {
         val builder =
             NotificationCompat.Builder(
                 context,
-                context.getString(R.string.notification_channel_id)
+                Constants.NOTIFICATION_CHANNEL_ID
             )
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val intent = Intent(
@@ -62,7 +55,7 @@ class NotifyWorker(appContext: Context, workerParams: WorkerParameters)
             .setAutoCancel(true)
             .setSound(alarmSound)
             .setContentIntent(pendingIntent)
-            .setGroup(context.getString(R.string.notification_group_key))
+            .setGroup(Constants.NOTIFICATION_GROUP_KEY)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
 
         return builder
@@ -72,8 +65,8 @@ class NotifyWorker(appContext: Context, workerParams: WorkerParameters)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
-                context.getString(R.string.notification_channel_id),
-                context.getString(R.string.notification_channel_title),
+                Constants.NOTIFICATION_CHANNEL_ID,
+                Constants.NOTIFICATION_CHANNEL_TITLE,
                 importance
             )
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
