@@ -5,104 +5,112 @@
     tools:context=".home.WaterManagementFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.gmail.devpelegrino.cronoagua.viewmodel.WaterManagementViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_details"
-        android:padding="@dimen/base_padding">
+        android:fillViewport="true">
 
-        <ProgressBar
-            android:id="@+id/progress_water"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:padding="@dimen/base_padding"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="@{viewModel.progress}"
-            android:progressTint="@color/secondary_details"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/primary_details"
+            android:padding="@dimen/base_padding">
 
-        <TextView
-            android:id="@+id/text_water_full"
-            style="@style/TextViewWaterFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="2000ml"
-            android:text="@{String.valueOf(viewModel.dailyDrink.totalAmountWater)}"
-            app:layout_constraintBottom_toTopOf="@+id/text_water_current"
-            app:layout_constraintStart_toStartOf="@+id/progress_water" />
+            <ProgressBar
+                android:id="@+id/progress_water"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:padding="@dimen/base_padding"
+                android:progress="@{viewModel.progress}"
+                android:progressTint="@color/secondary_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_water_current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="580ml"
-            android:text="@{String.valueOf(viewModel.dailyDrink.currentAmountWater)}"
-            style="@style/TextViewWaterFragment"
-            app:layout_constraintBottom_toTopOf="@id/progress_water"
-            app:layout_constraintStart_toStartOf="@id/progress_water" />
+            <TextView
+                android:id="@+id/text_water_full"
+                style="@style/TextViewWaterFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModel.dailyDrink.totalAmountWater)}"
+                app:layout_constraintBottom_toTopOf="@+id/text_water_current"
+                app:layout_constraintStart_toStartOf="@+id/progress_water"
+                tools:text="2000ml" />
 
-        <TextView
-            android:id="@+id/text_water_remain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="@string/text_remain"
-            android:text="@string/text_remain"
-            style="@style/TextViewWaterFragment"
-            app:layout_constraintBottom_toTopOf="@id/text_water_remain_value"
-            app:layout_constraintEnd_toEndOf="@id/progress_water" />
+            <TextView
+                android:id="@+id/text_water_current"
+                style="@style/TextViewWaterFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModel.dailyDrink.currentAmountWater)}"
+                app:layout_constraintBottom_toTopOf="@id/progress_water"
+                app:layout_constraintStart_toStartOf="@id/progress_water"
+                tools:text="580ml" />
 
-        <TextView
-            android:id="@+id/text_water_remain_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1420ml"
-            android:text="@{String.valueOf(viewModel.dailyDrink.totalAmountWater - viewModel.dailyDrink.currentAmountWater)}"
-            style="@style/TextViewWaterFragment"
-            app:layout_constraintBottom_toTopOf="@id/progress_water"
-            app:layout_constraintEnd_toEndOf="@id/progress_water" />
+            <TextView
+                android:id="@+id/text_water_remain"
+                style="@style/TextViewWaterFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_remain"
+                app:layout_constraintBottom_toTopOf="@id/text_water_remain_value"
+                app:layout_constraintEnd_toEndOf="@id/progress_water"
+                tools:text="@string/text_remain" />
 
-        <TextView
-            android:id="@+id/text_time"
-            style="@style/TextViewWaterFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Próximo gole em 28:32"
-            android:layout_marginTop="64dp"
-            app:layout_constraintTop_toBottomOf="@+id/progress_water"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/text_water_remain_value"
+                style="@style/TextViewWaterFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModel.dailyDrink.totalAmountWater - viewModel.dailyDrink.currentAmountWater)}"
+                app:layout_constraintBottom_toTopOf="@id/progress_water"
+                app:layout_constraintEnd_toEndOf="@id/progress_water"
+                tools:text="1420ml" />
 
-        <ImageView
-            android:id="@+id/image_bottle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:minWidth="240dp"
-            android:minHeight="280dp"
-            android:src="@drawable/ic_water_bottle_full"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_time" />
+            <TextView
+                android:id="@+id/text_time"
+                style="@style/TextViewWaterFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_water"
+                tools:text="Próximo gole em 28:32" />
 
-        <Button
-            android:id="@+id/button_drink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_drink"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_bottle" />
+            <ImageView
+                android:id="@+id/image_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:minWidth="240dp"
+                android:minHeight="280dp"
+                android:src="@drawable/ic_water_bottle_full"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_time" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/button_drink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_drink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_bottle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    °
 </layout>

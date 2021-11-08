@@ -10,145 +10,152 @@
             type="com.gmail.devpelegrino.cronoagua.viewmodel.UserProfileViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/scroll_user_profile"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_details"
-        android:padding="@dimen/base_padding"
-        tools:context=".ui.UserProfileFragment">
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/image_water_drop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_water_drop"
-            android:minWidth="192dp"
-            android:minHeight="192dp"
-            android:src="@drawable/ic_water_drop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_name"
-            style="@style/TextViewBase"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scroll_user_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name_question"
-            app:layout_constraintTop_toBottomOf="@id/image_water_drop" />
+            android:layout_height="match_parent"
+            android:background="@color/primary_details"
+            android:padding="@dimen/base_padding"
+            tools:context=".ui.UserProfileFragment">
 
-        <EditText
-            android:id="@+id/edit_name"
-            style="@style/EditTextBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name_text"
-            android:text="@{viewModel.userProfile.name}"
-            android:importantForAutofill="no"
-            android:inputType="textAutoComplete"
-            app:layout_constraintTop_toBottomOf="@id/text_name" />
-
-        <TextView
-            android:id="@+id/text_weight"
-            style="@style/TextViewBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/weight_question"
-            app:layout_constraintTop_toBottomOf="@id/edit_name" />
-
-        <EditText
-            android:id="@+id/edit_weight"
-            style="@style/EditTextBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary_details"
-            android:hint="@string/weight_text"
-            android:text="@{String.valueOf(viewModel.userProfile.weight)}"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned|numberDecimal"
-            app:layout_constraintTop_toBottomOf="@id/text_weight" />
-
-        <TextView
-            android:id="@+id/text_age"
-            style="@style/TextViewBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age_question"
-            app:layout_constraintTop_toBottomOf="@id/edit_weight" />
-
-        <EditText
-            android:id="@+id/edit_age"
-            style="@style/EditTextBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age_text"
-            android:text="@{String.valueOf(viewModel.userProfile.age)}"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned"
-            app:layout_constraintTop_toBottomOf="@id/text_age" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_physical_activity"
-            style="@style/TextViewBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_physical_activity"
-            android:checked="@{Boolean.valueOf(viewModel.userProfile.practiceExercise)}"
-            app:layout_constraintTop_toBottomOf="@id/edit_age" />
-
-        <TextView
-            android:id="@+id/text_climate"
-            style="@style/TextViewBase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/text_climate_in_your_home"
-            app:layout_constraintTop_toBottomOf="@id/switch_physical_activity" />
-
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/base_margin_elements"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/text_climate">
-
-            <RadioButton
-                android:id="@+id/radio_cold"
-                style="@style/EditTextBase"
+            <ImageView
+                android:id="@+id/image_water_drop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_elements"
-                android:text="@string/text_cold" />
+                android:contentDescription="@string/content_water_drop"
+                android:minWidth="192dp"
+                android:minHeight="192dp"
+                android:src="@drawable/ic_water_drop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radio_hot"
+            <TextView
+                android:id="@+id/text_name"
+                style="@style/TextViewBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_question"
+                app:layout_constraintTop_toBottomOf="@id/image_water_drop" />
+
+            <EditText
+                android:id="@+id/edit_name"
                 style="@style/EditTextBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_text"
+                android:importantForAutofill="no"
+                android:inputType="textAutoComplete"
+                android:text="@{viewModel.userProfile.name}"
+                app:layout_constraintTop_toBottomOf="@id/text_name" />
+
+            <TextView
+                android:id="@+id/text_weight"
+                style="@style/TextViewBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weight_question"
+                app:layout_constraintTop_toBottomOf="@id/edit_name" />
+
+            <EditText
+                android:id="@+id/edit_weight"
+                style="@style/EditTextBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/secondary_details"
+                android:hint="@string/weight_text"
+                android:importantForAutofill="no"
+                android:inputType="numberSigned|numberDecimal"
+                android:text="@{String.valueOf(viewModel.userProfile.weight)}"
+                app:layout_constraintTop_toBottomOf="@id/text_weight" />
+
+            <TextView
+                android:id="@+id/text_age"
+                style="@style/TextViewBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/age_question"
+                app:layout_constraintTop_toBottomOf="@id/edit_weight" />
+
+            <EditText
+                android:id="@+id/edit_age"
+                style="@style/EditTextBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/age_text"
+                android:importantForAutofill="no"
+                android:inputType="numberSigned"
+                android:text="@{String.valueOf(viewModel.userProfile.age)}"
+                app:layout_constraintTop_toBottomOf="@id/text_age" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_physical_activity"
+                style="@style/TextViewBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{Boolean.valueOf(viewModel.userProfile.practiceExercise)}"
+                android:text="@string/text_physical_activity"
+                app:layout_constraintTop_toBottomOf="@id/edit_age" />
+
+            <TextView
+                android:id="@+id/text_climate"
+                style="@style/TextViewBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_climate_in_your_home"
+                app:layout_constraintTop_toBottomOf="@id/switch_physical_activity" />
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/base_margin_elements"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/text_climate">
+
+                <RadioButton
+                    android:id="@+id/radio_cold"
+                    style="@style/EditTextBase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin_elements"
+                    android:text="@string/text_cold" />
+
+                <RadioButton
+                    android:id="@+id/radio_hot"
+                    style="@style/EditTextBase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin_elements"
+                    android:text="@string/text_hot" />
+
+                <RadioButton
+                    android:id="@+id/radio_very_hot"
+                    style="@style/EditTextBase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin_elements"
+                    android:text="@string/text_very_hot" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_elements"
-                android:text="@string/text_hot" />
+                android:backgroundTint="@color/save"
+                android:text="@string/button_save"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group" />
 
-            <RadioButton
-                android:id="@+id/radio_very_hot"
-                style="@style/EditTextBase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_elements"
-                android:text="@string/text_very_hot" />
-        </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/save"
-            android:textColor="@color/white"
-            android:text="@string/button_save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radio_group" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

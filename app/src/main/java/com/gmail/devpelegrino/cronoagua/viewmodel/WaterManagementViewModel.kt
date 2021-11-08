@@ -169,6 +169,8 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
             }
             if (users != null && users.isNotEmpty()) {
                 _userProfile = dailyDrinkRepository.getUser(users[0].id)
+            } else {
+                _userProfile = UserProfile()
             }
         }
     }
