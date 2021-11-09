@@ -1,6 +1,6 @@
 # CronoAgua - Gerenciador de hidratação
 
-* Uma aplicação desenvolvida para o estudo da linguagem kotlin e diversas técnica da programação mobile para Android.
+* Uma aplicação desenvolvida para o estudo da linguagem kotlin e diversas técnicas da programação mobile para Android.
 
 <img src="/records/notify.gif" width="700">
 
