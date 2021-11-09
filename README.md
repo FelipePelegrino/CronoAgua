@@ -30,7 +30,7 @@
 
 * Ao abrir, o usuário deve inserir seus dados na tela Usuário.
 * Existe uma configuração padrão que o usuário pode alterar se deseja ou não ser notificado, e os horários de rotina de sono.
-* Com base nas informações do usuário e de suas configurações é realizado um cálculo que define o quantos litros a pessoa deve inserir no dia.
+* Com base nas informações do usuário e de suas configurações é realizado um cálculo que define quantos litros a pessoa deve inserir no dia.
 * A cada 1h o app notifica o usuário para lembrar de sua hidratação, após isso, o usuário deve clicar em beber para atualizar o contador.
 * Caso o usuário altere alguma informação no seu perfil Usuário ou Configurações, o cálculo e notificações são atualizadas.
 
