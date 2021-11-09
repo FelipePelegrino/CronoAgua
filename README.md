@@ -19,11 +19,12 @@
 * SQLite
 * Room with TypeConverters
 * CountdownTimer
+* Kotlin Coroutines
 * Notify
    * Vibrate
    * WorkerRequest
    * BrodcastReceiver
-*Kotlin Coroutines
+
 
 ### Funcionamento
 
