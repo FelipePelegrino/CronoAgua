@@ -145,6 +145,11 @@ class WaterManagementViewModel(application: Application) : AndroidViewModel(appl
             if (dailyDrink.value == null) {
                 _dailyDrink.value = newDailyDrink().toModel()
                 dailyDrinkRepository.insertDailyDrink(_dailyDrink?.value!!.toDatabase())
+            } else if(_dailyDrink?.value?.totalAmountWater == 0) {
+                if(_userProfile != null) {
+                    _dailyDrink?.value!!.totalAmountWater = _userProfile?.dailyAverage!!
+                    dailyDrinkRepository.updateDailyDrink(_dailyDrink.value!!.toDatabase())
+                }
             }
         }
     }
