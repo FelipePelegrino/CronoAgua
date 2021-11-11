@@ -41,3 +41,10 @@
 * Notificar o usuário de acordo com o horário em que acorda setado na tela configurações.
 
 <img src="/records/configs.gif" width="700">
+
+### Imagens de terceiros
+
+* [icone](https://iconscout.com/icon/water-drop-84#)
+* [user] (https://iconscout.com/icon/user-1374)
+* [gear] (https://iconscout.com/icon/gear-3604249)
+* [water bottle] (https://iconscout.com/icon/water-bottle-3118663)
