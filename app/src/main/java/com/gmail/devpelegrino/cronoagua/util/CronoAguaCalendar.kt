@@ -12,7 +12,7 @@ fun getHoursDaily(): LocalTime {
     return LocalTime.now()
 }
 
-fun getTime(value: String) : LocalTime {
+fun getTime(value: String): LocalTime {
     return LocalTime.parse(value)
 }
 
@@ -36,11 +36,11 @@ fun getIsTimeExhaust(hour: LocalTime, plus: Long): Boolean {
 }
 
 fun getDifferenceHourMillis(hour: LocalTime, plus: Long): Long {
-    return (getDifferenceLocalTime(hour, plus).toSecondOfDay()*1000).toLong()
+    return (getDifferenceLocalTime(hour, plus).toSecondOfDay() * 1000).toLong()
 }
 
 fun getDifferenceHour(hour: LocalTime, plus: Long): String {
-    var formatter  = DateTimeFormatter.ofPattern("HH:mm:ss")
+    var formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
     return getDifferenceLocalTime(hour, plus).format(formatter)
 }
@@ -52,15 +52,23 @@ fun convertSecondsToHMmSs(seconds: Long): String? {
     return String.format("%d:%02d:%02d", h, m, s)
 }
 
-fun getCalendarConfigureToWakeUpNotify(hour: Int): Calendar {
+fun getCalendarConfigureToWakeUpNotify(hour: Int, minute: Int): Calendar {
     val calendar = Calendar.getInstance()
-    calendar.timeInMillis = System.currentTimeMillis()
 
-    if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= hour) {
+    if (timeNowIsBiggerThanParameter(hour, minute)) {
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
     calendar.set(Calendar.HOUR_OF_DAY, hour)
-    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.MINUTE, minute)
+    calendar.set(Calendar.SECOND, 0)
 
     return calendar
+}
+
+fun timeNowIsBiggerThanParameter(hour: Int, minute: Int): Boolean {
+    return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > hour
+            ||
+            Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == hour && Calendar.getInstance()
+        .get(Calendar.MINUTE) >= minute
+            )
 }

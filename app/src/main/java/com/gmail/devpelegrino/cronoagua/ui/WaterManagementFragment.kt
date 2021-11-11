@@ -80,9 +80,6 @@ class WaterManagementFragment : Fragment() {
         binding.viewModel = viewModel
 
         setObservers()
-        if(viewModel?.configuration?.value?.notify == true) {
-            setAlarmManager()
-        }
 
         binding.buttonDrink.setOnClickListener {
             drink()
@@ -123,6 +120,15 @@ class WaterManagementFragment : Fragment() {
             }
         )
 
+        viewModel.configuration.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it != null && it.wakeUpTime != "") {
+                    setAlarmManager()
+                }
+            }
+        )
+
     }
 
     @InternalCoroutinesApi
@@ -137,7 +143,7 @@ class WaterManagementFragment : Fragment() {
                 binding.textTime.text = getString(R.string.is_time_exhaust)
                 binding.textTime.textAlignment = View.TEXT_ALIGNMENT_CENTER
             } else {
-                if(viewModel?.configuration?.value?.notify == true) {
+                if (viewModel?.configuration?.value?.notify == true) {
                     val worker = CronoAguaWork(requireContext())
                     worker.scheduleWork()
                 }
@@ -178,19 +184,21 @@ class WaterManagementFragment : Fragment() {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        var calendar: Calendar
+        alarmManager.cancel(pendingIntent)
 
-        if (viewModel != null && viewModel.configuration != null) {
-            calendar =
-                getCalendarConfigureToWakeUpNotify(getTime(viewModel?.configuration?.value?.wakeUpTime!!).hour)
+        var calendar: Calendar = if (viewModel != null && viewModel.configuration != null) {
+            getCalendarConfigureToWakeUpNotify(
+                getTime(viewModel?.configuration?.value?.wakeUpTime!!).hour,
+                getTime(viewModel?.configuration?.value?.wakeUpTime!!).minute
+            )
         } else {
-            calendar = getCalendarConfigureToWakeUpNotify(9)
+            getCalendarConfigureToWakeUpNotify(9, 0)
         }
-        
-        alarmManager.setInexactRepeating(
+
+        alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            1000 * 60 * 60 * 24,
+            AlarmManager.INTERVAL_DAY,
             pendingIntent
         )
     }
